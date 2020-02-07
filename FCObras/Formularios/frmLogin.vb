@@ -11,19 +11,28 @@
 
         arrDatos = FC_GetDatos()
 
-
         If Trim(Join(arrDatos)) = "" Then
+inicionew:
+            MsgBox("Empezar con la configuración del Modulo.", vbInformation, "validación")
             sSystema = 0
             TBUser.Text = FCConstruccion.UserAdmin
             TBPass.Text = FCConstruccion.PassAdmin
         ElseIf VerificaTablas() = False Then
+            MsgBox("No se han creado completamente las tablas.", vbInformation, "validación")
             sSystema = 0
             TBUser.Text = FCConstruccion.UserAdmin
             TBPass.Text = FCConstruccion.PassAdmin
         Else
             sSystema = 1
             fError = FC_Conexion()
-
+            If Verifica_TablasGen_Actualiza() = False Then
+                CrearTablasPremium()
+            End If
+            GL_cParam = New clParametros
+            If GL_cParam.loadParam() = False Then
+                MsgBox("Falta confifurar los parametros." & vbCrLf & "Ingresar como Administrador.", vbInformation, "Validación")
+                GoTo inicionew
+            End If
         End If
     End Sub
 
@@ -50,8 +59,8 @@
             End If
         ElseIf FCConstruccion.sSystema = 1 Then
             fError = FC_Conexion()
-            'cUsuario = New clUsuario
-            'VerificaUsuario = cUsuario.login(Me.TBUser.Text, Eramake.eCryptography.Encrypt(Me.TBPass.Text))
+            GL_cUsuario = New clUsuario
+            VerificaUsuario = GL_cUsuario.login(Me.TBUser.Text, Eramake.eCryptography.Encrypt(Me.TBPass.Text))
         End If
     End Function
 

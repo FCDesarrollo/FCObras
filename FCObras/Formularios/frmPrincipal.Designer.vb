@@ -65,19 +65,19 @@ Partial Class frmPrincipal
         'MuserADD
         '
         Me.MuserADD.Name = "MuserADD"
-        Me.MuserADD.Size = New System.Drawing.Size(170, 22)
+        Me.MuserADD.Size = New System.Drawing.Size(180, 22)
         Me.MuserADD.Text = "Nuevo"
         '
         'MuserChan
         '
         Me.MuserChan.Name = "MuserChan"
-        Me.MuserChan.Size = New System.Drawing.Size(170, 22)
+        Me.MuserChan.Size = New System.Drawing.Size(180, 22)
         Me.MuserChan.Text = "Cambiar Usuario"
         '
         'MuserLog
         '
         Me.MuserLog.Name = "MuserLog"
-        Me.MuserLog.Size = New System.Drawing.Size(170, 22)
+        Me.MuserLog.Size = New System.Drawing.Size(180, 22)
         Me.MuserLog.Text = "Salir"
         '
         'MSep1

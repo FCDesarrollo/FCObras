@@ -1,11 +1,12 @@
 ﻿Imports System.Data.Odbc
 Imports System.Data.SqlClient
+Imports Microsoft.Office.Interop
 
 Module GeneralFC
     ''VARIABLES PARA REGISTRO EN REGEEDIT
     Public Const FC_REGKEY As String = "HKEY_LOCAL_MACHINE\SOFTWARE\FCModulos\"
     Public Const FC_REGKEYWRITE As String = "HKLM\SOFTWARE\FCModulos"
-    Public Const FormatoFecha As String = "YYYY-mm-DD"
+    Public Const Formato_FechaYear As String = "yyyy-MM-dd"
 
     ''VARIABLES DE CONEXION
     Public DConexiones As Dictionary(Of String, SqlConnection)
@@ -180,6 +181,8 @@ ERR_CON:
         Exit Function
 ERR_GETCONS:
         FC_GetCons = Err.Number
+        MsgBox("Error al cargar las instancias de Base de datos." & vbCrLf & Err.Description, vbExclamation, "Validación")
+        End
     End Function
 
     Public Sub FC_CrearBDD()
@@ -252,4 +255,24 @@ ERR_GETCONS:
         '    ObtenerPrimerDia = DateSerial(Year(Fecha), Month(Fecha) + 0, 1)
         ObtenerUltimoDia = DateSerial(Year(Fecha), Month(Fecha) + 1, 0)
     End Function
+
+    Public Function getLastRow(ByRef sht As Excel.Worksheet) As Long
+        On Error GoTo Err
+        getLastRow = sht.Cells.Find("*", SearchOrder:=Excel.XlSearchOrder.xlByRows, SearchDirection:=Excel.XlSearchDirection.xlPrevious).Row
+        Exit Function
+Err:
+        If Err.Number = 91 Then getLastRow = 0
+    End Function
+
+    Public Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
+        End Try
+    End Sub
 End Module
