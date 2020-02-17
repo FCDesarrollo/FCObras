@@ -147,4 +147,50 @@ Public Class clObra
         colObr = Nothing
     End Function
 
+    Public Sub Eliminar_obra()
+        Dim dQue As String, dCom As SqlCommand
+
+        Try
+            dQue = "DELETE FROM zConsObras WHERE id=" & _id & ""
+            dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+            dCom.Dispose()
+
+            dQue = "DELETE FROM zConsPlanesCrono WHERE id_obra=" & _id & ""
+            dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+            dCom.Dispose()
+
+            dQue = "DELETE FROM zConsCuentas WHERE id_obra=" & _id & ""
+            dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+            dCom.Dispose()
+
+            dQue = "DELETE FROM zConsAsociacionesPrecios WHERE id_obra=" & _id & ""
+            dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+            dCom.Dispose()
+
+            dQue = "SELECT id FROM zConsPresupuestos WHERE id_obra=" & _id & ""
+            Using dCor = New SqlCommand(dQue, DConexiones("CON"))
+                Using dCr = dCor.ExecuteReader
+                    Do While dCr.Read
+                        dQue = "DELETE FROM zConsPresupuestos_Doc WHERE id_presupuesto=" & dCr("id") & ""
+                        dCom = New SqlCommand(dQue, DConexiones("CON"))
+                        dCom.ExecuteNonQuery()
+                        dCom.Dispose()
+                    Loop
+                End Using
+            End Using
+
+            dQue = "DELETE FROM zConsPresupuestos WHERE id_obra=" & _id & ""
+            dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+            dCom.Dispose()
+        Catch ex As Exception
+            MsgBox("Error al eliminar la obra.", vbInformation, "Validación")
+        End Try
+
+        _id = 0
+    End Sub
 End Class

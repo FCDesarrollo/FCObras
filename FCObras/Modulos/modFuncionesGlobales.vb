@@ -9,7 +9,7 @@ Module modFuncionesGlobales
         If fError <> 0 Then Exit Function
 
         Try
-            oQue = "SELECT IdEmpresa,Empresa,ctBDD FROM ConsEmpresas"
+            oQue = "SELECT IdEmpresa,Empresa,ctBDD,RFC FROM ConsEmpresas"
             Using oCom = New SqlCommand(oQue, FC_Con)
                 Using oCr = oCom.ExecuteReader()
                     Do While oCr.Read
@@ -18,6 +18,7 @@ Module modFuncionesGlobales
                         empresa.Idempresa = oCr("IdEmpresa")
                         empresa.Nombreempresa = Trim(oCr("Empresa"))
                         empresa.BddCont = Trim(oCr("ctBDD"))
+                        empresa.Rfc = Trim(oCr("RFC"))
 
                         sucQue = "SELECT Nombre,IdAdw,Ruta,Sucursal,usaComercial FROM ConsRutasADW 
                                 WHERE IDEmpresa=" & oCr("IdEmpresa") & ""
@@ -57,7 +58,7 @@ Module modFuncionesGlobales
         dt.Columns.Add("Nombre")
 
         dr = dt.NewRow
-        dr(0) = -1
+        dr(0) = 0
         dr(1) = "SELECCIONAR EMPRESA"
         dt.Rows.Add(dr)
 
@@ -83,7 +84,7 @@ Module modFuncionesGlobales
         dt.Columns.Add("Nombre")
 
         dr = dt.NewRow
-        dr(0) = -1
+        dr(0) = 0
         dr(1) = "SELECCIONAR SUCURSAL"
         dt.Rows.Add(dr)
 

@@ -98,8 +98,8 @@ Public Class frmAvanceCuentas
                 Do While dCr.Read
                     dKeyUni = UCase(dCr("clave_unidad"))
                     dItemUni = dCr("id")
-                    If Not dDicInsumos.ContainsKey(dKeyUni) Then
-                        dDicInsumos.Add(dKeyUni, dItemUni)
+                    If Not dDicUnidades.ContainsKey(dKeyUni) Then
+                        dDicUnidades.Add(dKeyUni, dItemUni)
                     End If
                 Loop
             End Using
@@ -108,85 +108,85 @@ Public Class frmAvanceCuentas
         lLibro = _d_ruta ' "C:\Users\Arturo Gallegos\Desktop\Construccion\Layoutcuentas.xlsx"
         'Try
         appXL = New Microsoft.Office.Interop.Excel.Application
-            'appXL.Visible = False
-            wbXl = appXL.Workbooks.Open(lLibro)
-            shXL = wbXl.ActiveSheet
+        'appXL.Visible = False
+        wbXl = appXL.Workbooks.Open(lLibro)
+        shXL = wbXl.ActiveSheet
 
-            With shXL
-                uFil = getLastRow(shXL)
-                LAvance.Text = "Cargando registros "
-                For f = 4 To uFil
+        With shXL
+            uFil = getLastRow(shXL)
+            LAvance.Text = "Cargando registros "
+            For f = 4 To uFil
 
-                    LAvance.Text = "Cargando registros " & f - 3 & " de " & uFil - 3
-                    LAvance.Refresh()
-                    picgif.Refresh()
+                LAvance.Text = "Cargando registros " & f - 3 & " de " & uFil - 3
+                LAvance.Refresh()
+                picgif.Refresh()
 
-                    cuenta = New clCuenta
+                cuenta = New clCuenta
 
-                    dkey = .Cells(f, iColCuentas.iCodigo).value
-                    cuenta.Id = 0
-                    cuenta.Idobra = _d_idobra
-                    cuenta.Codigo = dkey
-                    cuenta.Nombrecuenta = .Cells(f, iColCuentas.iCuenta).value
-                    cuenta.Codigoadw = dkey
-                    cuenta.Tipo = .Cells(f, iColCuentas.iTipoInsumo).value
+                dkey = .Cells(f, iColCuentas.iCodigo).value
+                cuenta.Id = 0
+                cuenta.Idobra = _d_idobra
+                cuenta.Codigo = dkey
+                cuenta.Nombrecuenta = .Cells(f, iColCuentas.iCuenta).value
+                cuenta.Codigoadw = dkey
+                cuenta.Tipo = .Cells(f, iColCuentas.iTipoInsumo).value
 
-                    cuenta.Idinsumo = 0
-                    dkeyInsumo = UCase(IIf(IsNothing(.Cells(f, iColCuentas.iNOmInsumo).value), "", .Cells(f, iColCuentas.iNOmInsumo).value))
-                    If dDicInsumos.ContainsKey(dkeyInsumo) Then
-                        cuenta.Idinsumo = dDicInsumos.Item(dkeyInsumo)
-                    End If
+                cuenta.Idinsumo = 0
+                dkeyInsumo = UCase(IIf(IsNothing(.Cells(f, iColCuentas.iNOmInsumo).value), "", .Cells(f, iColCuentas.iNOmInsumo).value))
+                If dDicInsumos.ContainsKey(dkeyInsumo) Then
+                    cuenta.Idinsumo = dDicInsumos.Item(dkeyInsumo)
+                End If
 
                 ''DATOS PARA ASOCIACION
                 cuenta.Idcuentapadre = 0
                 cuenta.Fechaini = .Cells(f, iColCuentas.iFechaini).value
                 cuenta.Fechafin = .Cells(f, iColCuentas.iFechaFin).value
                 cuenta.Codigocuentapadre = IIf(IsNothing(.Cells(f, iColCuentas.iSubcuenta).value), "", .Cells(f, iColCuentas.iSubcuenta).value)
-                    cuenta.Fechaprecio = .Cells(f, iColCuentas.iFechaPrecio).value
-                    cuenta.Cantidad = .Cells(f, iColCuentas.iCantidad).value
+                cuenta.Fechaprecio = .Cells(f, iColCuentas.iFechaPrecio).value
+                cuenta.Cantidad = .Cells(f, iColCuentas.iCantidad).value
 
-                    dKeyUni = UCase(IIf(IsNothing(.Cells(f, iColCuentas.iUnidad).value), "", .Cells(f, iColCuentas.iUnidad).value))
-                    cuenta.Unidad = 0
-                    If dDicUnidades.ContainsKey(dKeyUni) Then
-                        cuenta.Unidad = dDicUnidades.Item(dKeyUni)
-                    End If
+                dKeyUni = UCase(IIf(IsNothing(.Cells(f, iColCuentas.iUnidad).value), "", .Cells(f, iColCuentas.iUnidad).value))
+                cuenta.Unidad = 0
+                If dDicUnidades.ContainsKey(dKeyUni) Then
+                    cuenta.Unidad = dDicUnidades.Item(dKeyUni)
+                End If
 
-                    cuenta.Precio = .Cells(f, iColCuentas.iPrecio).value
-                    cuenta.Importe = .Cells(f, iColCuentas.iImporte).value
-                    cuenta.Cantidadpendiente = .Cells(f, iColCuentas.iCantidad).value
-                    cuenta.Importependiente = .Cells(f, iColCuentas.iImporte).value
+                cuenta.Precio = .Cells(f, iColCuentas.iPrecio).value
+                cuenta.Importe = .Cells(f, iColCuentas.iImporte).value
+                cuenta.Cantidadpendiente = .Cells(f, iColCuentas.iCantidad).value
+                cuenta.Importependiente = .Cells(f, iColCuentas.iImporte).value
 
 
-                    dkeyPresu = UCase(IIf(IsNothing(.Cells(f, iColCuentas.iPresupuesto).value), "", .Cells(f, iColCuentas.iPresupuesto).value))
-                    cuenta.Idpresupuesto = idPre ''PENDIENTE
-                    If dDicPresupuestos.ContainsKey(dkeyPresu) Then
-                        cuenta.Idpresupuesto = dDicPresupuestos.Item(dkeyPresu)
-                    End If
+                dkeyPresu = UCase(IIf(IsNothing(.Cells(f, iColCuentas.iPresupuesto).value), "", .Cells(f, iColCuentas.iPresupuesto).value))
+                cuenta.Idpresupuesto = idPre ''PENDIENTE
+                If dDicPresupuestos.ContainsKey(dkeyPresu) Then
+                    cuenta.Idpresupuesto = dDicPresupuestos.Item(dkeyPresu)
+                End If
 
-                    If Not dDicCuentas.ContainsKey(dkey) Then
-                        cuenta.Guarda_cuenta()
-                        dDicCuentas.Add(dkey, cuenta)
-                    Else
+                If Not dDicCuentas.ContainsKey(dkey) Then
+                    cuenta.Guarda_cuenta()
+                    dDicCuentas.Add(dkey, cuenta)
+                Else
+                    cuentaAgregada = dDicCuentas.Item(dkey)
+                    cuenta.Id = cuentaAgregada.Id
+                End If
+
+                dkey = .Cells(f, iColCuentas.iSubcuenta).value
+                If dkey <> "" Then
+                    If dDicCuentas.ContainsKey(dkey) Then
                         cuentaAgregada = dDicCuentas.Item(dkey)
-                        cuenta.Id = cuentaAgregada.Id
+                        cuenta.Idcuentapadre = cuentaAgregada.Id
                     End If
+                End If
+                If cuenta.Codigocuentapadre <> "" And cuenta.Idcuentapadre = 0 Then
+                    dDicCuentasAdd.Add(cuenta)
+                Else
+                    cuenta.Guarda_Asociacion()
+                End If
+            Next
+        End With
 
-                    dkey = .Cells(f, iColCuentas.iSubcuenta).value
-                    If dkey <> "" Then
-                        If dDicCuentas.ContainsKey(dkey) Then
-                            cuentaAgregada = dDicCuentas.Item(dkey)
-                            cuenta.Idcuentapadre = cuentaAgregada.Id
-                        End If
-                    End If
-                    If cuenta.Codigocuentapadre <> "" And cuenta.Idcuentapadre = 0 Then
-                        dDicCuentasAdd.Add(cuenta)
-                    Else
-                        cuenta.Guarda_Asociacion()
-                    End If
-                Next
-            End With
-
-            LAvance.Text = "Finalizado cuentas cargadas"
+        LAvance.Text = "Finalizado cuentas cargadas"
             LAvance.Refresh()
             NAR(shXL)
             wbXl.Close(False)

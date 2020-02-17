@@ -7,7 +7,7 @@ Module GeneralFC
     Public Const FC_REGKEY As String = "HKEY_LOCAL_MACHINE\SOFTWARE\FCModulos\"
     Public Const FC_REGKEYWRITE As String = "HKLM\SOFTWARE\FCModulos"
     Public Const Formato_FechaYear As String = "yyyy-MM-dd"
-
+    Public Const Formato_FechaMonth As String = "dd/MM/yyyy"
     ''VARIABLES DE CONEXION
     Public DConexiones As Dictionary(Of String, SqlConnection)
     Public FC_Con As New SqlConnection
@@ -65,6 +65,7 @@ Module GeneralFC
         Exit Function
 ERR_CON:
         MsgBox("Error al conectar base de datos General." & vbCrLf & Err.Description, vbCritical, "Validación")
+        End
         FC_Conexion = Err.Number
     End Function
 
@@ -83,6 +84,7 @@ ERR_CON:
         Exit Function
 ERR_CON:
         MsgBox("Error al conectar base SQL." & vbCrLf & Err.Description, vbCritical, "Validación")
+        End
         FC_ConexionSQL = Err.Number
     End Function
 
@@ -97,7 +99,8 @@ ERR_CON:
         FC_ConexionFOX = 0
         Exit Function
 ERR_CON:
-        MsgBox("Error al conectar base FoxCon." & vbCrLf & Err.Description, "Validación")
+        MsgBox("Error al conectar base FoxCon." & vbCrLf & Err.Description, vbCritical, "Validación")
+        End
         FC_ConexionFOX = Err.Number
     End Function
 

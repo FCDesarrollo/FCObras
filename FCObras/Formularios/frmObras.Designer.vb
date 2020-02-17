@@ -64,6 +64,7 @@ Partial Class frmObras
         Me.btnADDPresupuesto = New System.Windows.Forms.Button()
         Me.btnDelPlan = New System.Windows.Forms.Button()
         Me.btnADDPlan = New System.Windows.Forms.Button()
+        Me.Label12 = New System.Windows.Forms.Label()
         CType(Me.dgPresupuesto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgPlanes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgObras, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -201,9 +202,10 @@ Partial Class frmObras
         '
         'archPresupuesto
         '
+        Me.archPresupuesto.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox
+        Me.archPresupuesto.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.archPresupuesto.HeaderText = "Archivos"
         Me.archPresupuesto.Name = "archPresupuesto"
-        Me.archPresupuesto.ReadOnly = True
         Me.archPresupuesto.Width = 130
         '
         'verPresu
@@ -423,7 +425,7 @@ Partial Class frmObras
         '
         Me.btnDelPresupuesto.BackColor = System.Drawing.Color.Red
         Me.btnDelPresupuesto.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelPresupuesto.Location = New System.Drawing.Point(641, 322)
+        Me.btnDelPresupuesto.Location = New System.Drawing.Point(658, 322)
         Me.btnDelPresupuesto.Name = "btnDelPresupuesto"
         Me.btnDelPresupuesto.Size = New System.Drawing.Size(31, 28)
         Me.btnDelPresupuesto.TabIndex = 39
@@ -434,7 +436,7 @@ Partial Class frmObras
         '
         Me.btnADDPresupuesto.BackColor = System.Drawing.Color.Blue
         Me.btnADDPresupuesto.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnADDPresupuesto.Location = New System.Drawing.Point(604, 322)
+        Me.btnADDPresupuesto.Location = New System.Drawing.Point(621, 322)
         Me.btnADDPresupuesto.Name = "btnADDPresupuesto"
         Me.btnADDPresupuesto.Size = New System.Drawing.Size(31, 28)
         Me.btnADDPresupuesto.TabIndex = 38
@@ -463,12 +465,22 @@ Partial Class frmObras
         Me.btnADDPlan.Text = "+"
         Me.btnADDPlan.UseVisualStyleBackColor = False
         '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(583, 559)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(113, 13)
+        Me.Label12.TabIndex = 43
+        Me.Label12.Text = "Doble click para editar"
+        '
         'frmObras
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.ClientSize = New System.Drawing.Size(910, 566)
+        Me.ClientSize = New System.Drawing.Size(910, 575)
+        Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.btnDelPlan)
         Me.Controls.Add(Me.btnADDPlan)
         Me.Controls.Add(Me.btnDelPresupuesto)
@@ -554,4 +566,5 @@ Partial Class frmObras
     Friend WithEvents nomPresupuesto As DataGridViewTextBoxColumn
     Friend WithEvents archPresupuesto As DataGridViewComboBoxColumn
     Friend WithEvents verPresu As DataGridViewButtonColumn
+    Friend WithEvents Label12 As Label
 End Class

@@ -12,6 +12,8 @@
 
     Public Const mApi As String = "http://apicrm.dublock.com/"
 
+    Public Const GL_ModActual As String = "Construccion"
+
     Public Enum iColCuentas
         iFechaini = 1
         iFechaFin

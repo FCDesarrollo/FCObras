@@ -6,6 +6,7 @@ Public Class frmObras
     Private D_ObrasAll As Collection
     Private D_Load As Boolean
     Private D_IDEmpresa As Integer
+    Private D_RFC As String
     Private D_IDSucursal As Integer
     Private D_Obra As clObra
     Private Sub FrmObras_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -63,18 +64,18 @@ Public Class frmObras
     Private Sub Cbempresas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbempresas.SelectedIndexChanged
         If D_Load = True Then Exit Sub
         D_IDEmpresa = CInt(cbempresas.SelectedValue)
-        If D_IDEmpresa > 0 Then
-            Cambio_Empresa()
-        End If
+        Cambio_Empresa()
     End Sub
 
     Private Sub Cambio_Empresa()
         Dim empresa As clEmpresa
-        Limpiar_Obra()
         dgObras.Rows.Clear()
+        cbsucursales.DataSource = Nothing
+        cbsucursales.Items.Clear()
+        Limpiar_Obra()
         For Each empresa In D_Empresas
             If empresa.Idempresa = D_IDEmpresa Then
-
+                D_RFC = empresa.Rfc
                 If DConexiones Is Nothing Then FC_GetCons()
                 DConexiones("CON").ChangeDatabase(empresa.BddCont)
                 D_Load = True
@@ -99,6 +100,7 @@ Public Class frmObras
     End Sub
 
     Private Sub BtnNuevo_Click(sender As Object, e As EventArgs) Handles btnNuevo.Click
+        dgObras.ClearSelection()
         Limpiar_Obra()
     End Sub
 
@@ -244,10 +246,38 @@ Public Class frmObras
 
     Private Sub muestra_Presupuestos()
         Dim presupuesto As clPresupuesto
+        Dim combobox As DataGridViewComboBoxCell
+        Dim dtt As DataTable, dtPresu As DataTable
+        Dim dr As DataRow
+
+        Dim rutaAr As String
+        rutaAr = GeneralFC.FC_RutaSincronizada & "\" & D_RFC & "\" & GL_ModActual & "\" & D_Obra.Id
+
         dgPresupuesto.Rows.Clear()
 
         For Each presupuesto In D_Obra.ColPresupuestos
-            dgPresupuesto.Rows.Add(presupuesto.Id, presupuesto.Nombrepresupuesto, "", "VER")
+            dgPresupuesto.Rows.Add(presupuesto.Id, presupuesto.Nombrepresupuesto, "", "abrir")
+            combobox = dgPresupuesto.Rows(dgPresupuesto.Rows.Count - 1).Cells(2)
+            dtt = New DataTable("documentos")
+            dtt.Columns.Add("ruta")
+            dtt.Columns.Add("archivo")
+
+            dr = dtt.NewRow()
+            dr(0) = 0
+            dr(1) = "Seleccione"
+            dtt.Rows.Add(dr)
+
+            dtPresu = presupuesto.Get_DocumentosPresupuestos
+            For Each row As DataRow In dtPresu.Rows
+                dr = dtt.NewRow()
+                dr(0) = rutaAr & "\" & row("archivo")
+                dr(1) = row("archivo")
+                dtt.Rows.Add(dr)
+            Next
+
+            combobox.DataSource = dtt
+            combobox.DisplayMember = "archivo"
+            combobox.ValueMember = "ruta"
         Next
     End Sub
 
@@ -275,6 +305,90 @@ Public Class frmObras
         frm.D_idobra = D_Obra.Id
         frm.D_nombreobra = D_Obra.Nombreobra
         frm.D_nombreempresa = cbempresas.Text
-        frm.Show()
+        frm.ShowDialog()
+
+    End Sub
+
+    Private Sub BtnEliminar_Click(sender As Object, e As EventArgs) Handles btnEliminar.Click
+        If D_Obra.Id <> 0 Then
+            If MsgBox("Al Eliminar la obra se eliminara toda su información." & vbCrLf _
+                        & "Cuentas,presupuestos,planes y precios" & vbCrLf _
+                        & "¿Desea Continuar?", vbYesNoCancel, "Validación") = vbYes Then
+                D_Obra.Eliminar_obra()
+                Limpiar_Obra()
+                dgObras.Rows.Remove(dgObras.CurrentRow)
+            End If
+        End If
+    End Sub
+
+    Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        Me.Close()
+    End Sub
+
+    Private Sub BtnADDPresupuesto_Click(sender As Object, e As EventArgs) Handles btnADDPresupuesto.Click
+        Dim frm As New frmpresupuesto
+        Dim presupuesto As New clPresupuesto
+        If D_Obra.Id <> 0 Then
+            frm.P_Idobra = D_Obra.Id
+            frm.P_rfc = D_RFC
+            frm.ShowDialog()
+            frm.Dispose()
+            presupuesto.Idobra = D_Obra.Id
+            D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
+            muestra_Presupuestos()
+        End If
+    End Sub
+
+    Private Sub BtnDelPresupuesto_Click(sender As Object, e As EventArgs) Handles btnDelPresupuesto.Click
+        Dim presupuesto As New clPresupuesto
+        If D_Obra.Id <> 0 Then
+            If Not dgPresupuesto.CurrentRow Is Nothing Then
+                If MsgBox("Se va eliminar el presupuesto " &
+                          dgPresupuesto.Item(1, dgPresupuesto.CurrentRow.Index).Value &
+                          vbCrLf & "¿Desea Continuar?", vbYesNoCancel, "Validación") = vbYes Then
+                    presupuesto.Id = dgPresupuesto.Item(0, dgPresupuesto.CurrentRow.Index).Value
+                    presupuesto.Elimina_Presupuesto()
+                    presupuesto.Idobra = D_Obra.Id
+                    D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
+                    muestra_Presupuestos()
+                End If
+            End If
+        End If
+    End Sub
+
+
+    Private Sub dgPresupuesto_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgPresupuesto.CellContentDoubleClick
+        Dim frm As New frmpresupuesto
+        Dim presupuesto As New clPresupuesto
+        If dgPresupuesto.CurrentRow Is Nothing Then Exit Sub
+
+        If e.RowIndex >= 0 Then
+            If D_Obra.Id <> 0 Then
+                frm.P_Idobra = D_Obra.Id
+                frm.P_rfc = D_RFC
+                frm.P_id = dgPresupuesto.Item(0, e.RowIndex).Value
+                frm.ShowDialog()
+                frm.Dispose()
+                presupuesto.Idobra = D_Obra.Id
+                D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
+                muestra_Presupuestos()
+            End If
+        End If
+    End Sub
+
+    Private Sub TxtBuscaObra_TextChanged(sender As Object, e As EventArgs) Handles txtBuscaObra.TextChanged
+        'Busca_Obra(txtBuscaObra.Text)
+    End Sub
+
+    Private Sub Busca_Obra(ByVal dBus As String)
+        'Dim gObra As clObra
+        'dgObras.Rows.Clear()
+
+        'For Each gObra In D_ObrasAll
+        '    If InStr(gObra.Nombreobra, dBus, vbTextCompare) <> 0 Then
+        '        dgObras.Rows.Add(gObra.Id, gObra.Nombreobra, IIf(gObra.Estatus = 1, "ACTIVA", "INACTIVA"))
+        '        Exit For
+        '    End If
+        'Next gObra
     End Sub
 End Class

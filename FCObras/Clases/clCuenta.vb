@@ -230,7 +230,7 @@ Public Class clCuenta
 
         Try
             gQue = "INSERT INTO zConsCuentas(fechaInicio,fechaFinal,id_obra,codigo,nombre_cuenta,codigo_adw,
-                            clasificacion1,clasificaicon2,clasificacion3,tipoinsumo,idinsumo)VALUES(
+                            clasificacion1,clasificacion2,clasificacion3,tipoinsumo,idinsumo)VALUES(
                             @fechaini,@fechafin,@idobra,@codigo,@nombre,@codigoadw,@clasi1,@clasi2,@clasi3,@tipo,@idinsumo)
                             SELECT SCOPE_IDENTITY()"
             Using gCom = New SqlCommand(gQue, DConexiones("CON"))
@@ -296,10 +296,10 @@ Public Class clCuenta
         End Try
     End Sub
 
-    Public Function Carga_Cuentas() As DataTable
+    Public Function Carga_AsociadasCuentas() As DataTable
         Dim dt As New DataTable, cQue As String
 
-        cQue = "SELECT id_cuenta,id_cuentapadre,codigo_cuenta,codigo_cuentapadre FROM 
+        cQue = "SELECT DISTINCT id_cuenta,id_cuentapadre,codigo_cuenta,codigo_cuentapadre FROM 
                     zConsAsociacionesPrecios WHERE id_obra=" & _idobra & ""
         Using cCom = New SqlDataAdapter(cQue, DConexiones("CON"))
             cCom.Fill(dt)
@@ -307,6 +307,17 @@ Public Class clCuenta
         Return dt
     End Function
 
+    Public Function Carga_Cuentas(ByVal filtro As String) As DataTable
+        Dim dt As New DataTable, cQue As String
+
+        cQue = "SELECT id,id_obra,fechaInicio,fechaFinal,codigo,nombre_cuenta,
+                        codigo_adw,clasificacion1,clasificacion2,clasificacion3,
+                        tipoinsumo, idinsumo FROM zConsCuentas WHERE id_obra=" & _idobra & " " & filtro & ""
+        Using cCom = New SqlDataAdapter(cQue, DConexiones("CON"))
+            cCom.Fill(dt)
+        End Using
+        Return dt
+    End Function
     Public Function Nombres_cuentas() As Dictionary(Of String, String)
         Dim dDicCuentas As New Dictionary(Of String, String)
         Dim dQue As String, dKey As String, dItem As String
@@ -326,4 +337,66 @@ Public Class clCuenta
 
         Return dDicCuentas
     End Function
+
+    Public Function Get_Cuenta() As Boolean
+        Dim dQue As String, resp As Boolean
+
+        resp = False
+        dQue = "SELECT DISTINCT fechaInicio,fechaFinal,codigo,nombre_cuenta,
+                    clasificacion1,clasificacion2,clasificacion3,tipoinsumo,
+                    idinsumo,id_cuentapadre,codigo_cuentapadre,unidad FROM zConsCuentas c
+                    INNER JOIN zConsAsociacionesPrecios a ON c.id=a.id_cuenta 
+                    WHERE a.id_cuenta=" & _id & " and id_cuentapadre=" & _idcuentapadre & ""
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            Using dCr = dCom.ExecuteReader
+                dCr.Read()
+                If dCr.HasRows Then
+                    resp = True
+                    _fechaini = dCr("fechaInicio")
+                    _fechafin = dCr("fechaFinal")
+                    _codigo = dCr("codigo")
+                    _nombrecuenta = dCr("nombre_cuenta")
+                    _clasificacion1 = dCr("clasificacion1")
+                    _clasificacion2 = dCr("clasificacion2")
+                    _clasificacion3 = dCr("clasificacion3")
+                    _tipo = dCr("tipoinsumo")
+                    _idinsumo = dCr("idinsumo")
+                    _idcuentapadre = dCr("id_cuentapadre")
+                    _codigocuentapadre = dCr("codigo_cuentapadre")
+                    _unidad = dCr("unidad")
+                End If
+            End Using
+        End Using
+        Return resp
+    End Function
+
+    Public Function Get_Precios() As DataTable
+        Dim dt As New DataTable, dQue As String
+
+        dQue = "SELECT id,fecha,id_presupuesto,cantidad,precio,importe 
+                    FROM zConsAsociacionesPrecios WHERE id_cuenta=" & _id & "
+                    AND id_cuentapadre=" & _idcuentapadre & " order by id ASC"
+        Using cCom = New SqlDataAdapter(dQue, DConexiones("CON"))
+            cCom.Fill(dt)
+        End Using
+        Return dt
+    End Function
+
+    Public Sub Get_SumDetalles()
+        Dim dQue As String
+
+        dQue = "SELECT  SUM(cantidad) AS cantidad,SUM(precio) AS precio
+                            FROM zConsAsociacionesPrecios 
+                            WHERE id_cuenta = " & _id & " AND id_cuentapadre=" & _idcuentapadre & ""
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            Using dCr = dCom.ExecuteReader()
+                dCr.Read()
+                If dCr.HasRows Then
+                    _cantidad = dCr("cantidad")
+                    _precio = dCr("precio")
+                    _importe = _cantidad * _precio
+                End If
+            End Using
+        End Using
+    End Sub
 End Class

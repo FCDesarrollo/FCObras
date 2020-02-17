@@ -6,6 +6,8 @@ Public Class frmConfig
 
     Private conInfo As String = "Intalación " & vbCrLf & "Guarda la configuración Principal para los Modulos."
     Private Sub FrmConfig_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        tooltip.SetToolTip(Me.btnADD, "Agregar Empresa")
+        tooltip.SetToolTip(Me.btnDel, "Elima la empresa seleccionada")
         Dim arrDatos() As String
         sBanLoad = 0
         'If My.Settings.ProductoRegistrado = False And My.Settings.Serial = "" Then
