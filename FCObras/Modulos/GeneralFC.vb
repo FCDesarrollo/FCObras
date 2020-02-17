@@ -1,12 +1,13 @@
 ﻿Imports System.Data.Odbc
 Imports System.Data.SqlClient
+Imports Microsoft.Office.Interop
 
 Module GeneralFC
     ''VARIABLES PARA REGISTRO EN REGEEDIT
     Public Const FC_REGKEY As String = "HKEY_LOCAL_MACHINE\SOFTWARE\FCModulos\"
     Public Const FC_REGKEYWRITE As String = "HKLM\SOFTWARE\FCModulos"
-    Public Const FormatoFecha As String = "YYYY-mm-DD"
-
+    Public Const Formato_FechaYear As String = "yyyy-MM-dd"
+    Public Const Formato_FechaMonth As String = "dd/MM/yyyy"
     ''VARIABLES DE CONEXION
     Public DConexiones As Dictionary(Of String, SqlConnection)
     Public FC_Con As New SqlConnection
@@ -64,6 +65,7 @@ Module GeneralFC
         Exit Function
 ERR_CON:
         MsgBox("Error al conectar base de datos General." & vbCrLf & Err.Description, vbCritical, "Validación")
+        End
         FC_Conexion = Err.Number
     End Function
 
@@ -82,6 +84,7 @@ ERR_CON:
         Exit Function
 ERR_CON:
         MsgBox("Error al conectar base SQL." & vbCrLf & Err.Description, vbCritical, "Validación")
+        End
         FC_ConexionSQL = Err.Number
     End Function
 
@@ -96,7 +99,8 @@ ERR_CON:
         FC_ConexionFOX = 0
         Exit Function
 ERR_CON:
-        MsgBox("Error al conectar base FoxCon." & vbCrLf & Err.Description, "Validación")
+        MsgBox("Error al conectar base FoxCon." & vbCrLf & Err.Description, vbCritical, "Validación")
+        End
         FC_ConexionFOX = Err.Number
     End Function
 
@@ -180,6 +184,8 @@ ERR_CON:
         Exit Function
 ERR_GETCONS:
         FC_GetCons = Err.Number
+        MsgBox("Error al cargar las instancias de Base de datos." & vbCrLf & Err.Description, vbExclamation, "Validación")
+        End
     End Function
 
     Public Sub FC_CrearBDD()
@@ -252,4 +258,24 @@ ERR_GETCONS:
         '    ObtenerPrimerDia = DateSerial(Year(Fecha), Month(Fecha) + 0, 1)
         ObtenerUltimoDia = DateSerial(Year(Fecha), Month(Fecha) + 1, 0)
     End Function
+
+    Public Function getLastRow(ByRef sht As Excel.Worksheet) As Long
+        On Error GoTo Err
+        getLastRow = sht.Cells.Find("*", SearchOrder:=Excel.XlSearchOrder.xlByRows, SearchDirection:=Excel.XlSearchDirection.xlPrevious).Row
+        Exit Function
+Err:
+        If Err.Number = 91 Then getLastRow = 0
+    End Function
+
+    Public Sub releaseObject(ByVal obj As Object)
+        Try
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
+            obj = Nothing
+        Catch ex As Exception
+            obj = Nothing
+        Finally
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
+        End Try
+    End Sub
 End Module

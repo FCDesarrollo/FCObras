@@ -47,6 +47,13 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="eCryptography, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Eramake.eCryptography.1.1.6\lib\net45\eCryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -72,10 +79,67 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Clases\clCuenta.vb" />
+    <Compile Include="Clases\clEmpresa.vb" />
+    <Compile Include="Clases\clModulos.vb" />
+    <Compile Include="Clases\clObra.vb" />
+    <Compile Include="Clases\clParametros.vb" />
+    <Compile Include="Clases\clPlanCrono.vb" />
+    <Compile Include="Clases\clPresupuesto.vb" />
+    <Compile Include="Clases\clSucursal.vb" />
+    <Compile Include="Clases\clUsuario.vb" />
+    <Compile Include="Formularios\frmAvanceCuentas.Designer.vb">
+      <DependentUpon>frmAvanceCuentas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmAvanceCuentas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmBuscaCuenta.Designer.vb">
+      <DependentUpon>frmBuscaCuenta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmBuscaCuenta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmClasificacion.Designer.vb">
+      <DependentUpon>frmClasificacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmClasificacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Formularios\frmConfig.Designer.vb">
       <DependentUpon>frmConfig.vb</DependentUpon>
     </Compile>
     <Compile Include="Formularios\frmConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmOrden.Designer.vb">
+      <DependentUpon>frmOrden.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmOrden.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmOrdenes.Designer.vb">
+      <DependentUpon>frmOrdenes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmOrdenes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmCuentas.Designer.vb">
+      <DependentUpon>frmCuentas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmCuentas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmEmpresasAdw.Designer.vb">
+      <DependentUpon>frmEmpresasAdw.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmEmpresasAdw.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmEmpresasCont.Designer.vb">
+      <DependentUpon>frmEmpresasCont.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmEmpresasCont.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Formularios\frmLogin.Designer.vb">
@@ -90,14 +154,39 @@
     <Compile Include="Formularios\frmObras.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Formularios\frmprecio.Designer.vb">
+      <DependentUpon>frmprecio.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmprecio.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmpresupuesto.Designer.vb">
+      <DependentUpon>frmpresupuesto.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmpresupuesto.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Formularios\frmPrincipal.Designer.vb">
       <DependentUpon>frmPrincipal.vb</DependentUpon>
     </Compile>
     <Compile Include="Formularios\frmPrincipal.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Formularios\frmProveedores.Designer.vb">
+      <DependentUpon>frmProveedores.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmProveedores.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmSelecCuenta.Designer.vb">
+      <DependentUpon>frmSelecCuenta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmSelecCuenta.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Modulos\GeneralFC.vb" />
     <Compile Include="Modulos\modFC_Premium.vb" />
+    <Compile Include="Modulos\modFuncionesGlobales.vb" />
     <Compile Include="Modulos\modGlobales.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -116,8 +205,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Formularios\frmAvanceCuentas.resx">
+      <DependentUpon>frmAvanceCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmBuscaCuenta.resx">
+      <DependentUpon>frmBuscaCuenta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmClasificacion.resx">
+      <DependentUpon>frmClasificacion.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmConfig.resx">
       <DependentUpon>frmConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmOrden.resx">
+      <DependentUpon>frmOrden.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmOrdenes.resx">
+      <DependentUpon>frmOrdenes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmCuentas.resx">
+      <DependentUpon>frmCuentas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmEmpresasAdw.resx">
+      <DependentUpon>frmEmpresasAdw.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmEmpresasCont.resx">
+      <DependentUpon>frmEmpresasCont.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmLogin.resx">
       <DependentUpon>frmLogin.vb</DependentUpon>
@@ -125,8 +238,20 @@
     <EmbeddedResource Include="Formularios\frmObras.resx">
       <DependentUpon>frmObras.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmprecio.resx">
+      <DependentUpon>frmprecio.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmpresupuesto.resx">
+      <DependentUpon>frmpresupuesto.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmPrincipal.resx">
       <DependentUpon>frmPrincipal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmProveedores.resx">
+      <DependentUpon>frmProveedores.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmSelecCuenta.resx">
+      <DependentUpon>frmSelecCuenta.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -146,6 +271,10 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search-18.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
