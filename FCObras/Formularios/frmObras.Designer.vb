@@ -65,6 +65,10 @@ Partial Class frmObras
         Me.btnDelPlan = New System.Windows.Forms.Button()
         Me.btnADDPlan = New System.Windows.Forms.Button()
         Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.cbAlmacen = New System.Windows.Forms.ComboBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.cbConcepto = New System.Windows.Forms.ComboBox()
         CType(Me.dgPresupuesto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgPlanes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgObras, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,7 +122,7 @@ Partial Class frmObras
         Me.cbEstatus.Items.AddRange(New Object() {"ACTIVA", "INACTIVA"})
         Me.cbEstatus.Location = New System.Drawing.Point(626, 134)
         Me.cbEstatus.Name = "cbEstatus"
-        Me.cbEstatus.Size = New System.Drawing.Size(135, 21)
+        Me.cbEstatus.Size = New System.Drawing.Size(179, 21)
         Me.cbEstatus.TabIndex = 7
         '
         'Label4
@@ -167,7 +171,7 @@ Partial Class frmObras
         Me.txtdes.Location = New System.Drawing.Point(322, 224)
         Me.txtdes.Multiline = True
         Me.txtdes.Name = "txtdes"
-        Me.txtdes.Size = New System.Drawing.Size(439, 86)
+        Me.txtdes.Size = New System.Drawing.Size(483, 86)
         Me.txtdes.TabIndex = 14
         '
         'dgPresupuesto
@@ -221,7 +225,7 @@ Partial Class frmObras
         Me.btnNuevo.BackColor = System.Drawing.Color.Yellow
         Me.btnNuevo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnNuevo.Image = CType(resources.GetObject("btnNuevo.Image"), System.Drawing.Image)
-        Me.btnNuevo.Location = New System.Drawing.Point(783, 60)
+        Me.btnNuevo.Location = New System.Drawing.Point(823, 60)
         Me.btnNuevo.Name = "btnNuevo"
         Me.btnNuevo.Size = New System.Drawing.Size(75, 52)
         Me.btnNuevo.TabIndex = 21
@@ -292,9 +296,9 @@ Partial Class frmObras
         Me.btnPartidas.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnPartidas.Image = CType(resources.GetObject("btnPartidas.Image"), System.Drawing.Image)
         Me.btnPartidas.ImageAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.btnPartidas.Location = New System.Drawing.Point(322, 60)
+        Me.btnPartidas.Location = New System.Drawing.Point(693, 60)
         Me.btnPartidas.Name = "btnPartidas"
-        Me.btnPartidas.Size = New System.Drawing.Size(110, 52)
+        Me.btnPartidas.Size = New System.Drawing.Size(112, 52)
         Me.btnPartidas.TabIndex = 28
         Me.btnPartidas.Text = "Agregar Cuentas"
         Me.btnPartidas.TextAlign = System.Drawing.ContentAlignment.BottomCenter
@@ -305,7 +309,7 @@ Partial Class frmObras
         Me.btnGuardar.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.btnGuardar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnGuardar.Image = CType(resources.GetObject("btnGuardar.Image"), System.Drawing.Image)
-        Me.btnGuardar.Location = New System.Drawing.Point(783, 120)
+        Me.btnGuardar.Location = New System.Drawing.Point(823, 120)
         Me.btnGuardar.Name = "btnGuardar"
         Me.btnGuardar.Size = New System.Drawing.Size(75, 52)
         Me.btnGuardar.TabIndex = 29
@@ -318,7 +322,7 @@ Partial Class frmObras
         Me.btnEliminar.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
         Me.btnEliminar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnEliminar.Image = CType(resources.GetObject("btnEliminar.Image"), System.Drawing.Image)
-        Me.btnEliminar.Location = New System.Drawing.Point(783, 178)
+        Me.btnEliminar.Location = New System.Drawing.Point(823, 178)
         Me.btnEliminar.Name = "btnEliminar"
         Me.btnEliminar.Size = New System.Drawing.Size(75, 52)
         Me.btnEliminar.TabIndex = 30
@@ -331,7 +335,7 @@ Partial Class frmObras
         Me.btnSalir.BackColor = System.Drawing.Color.Silver
         Me.btnSalir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSalir.Image = CType(resources.GetObject("btnSalir.Image"), System.Drawing.Image)
-        Me.btnSalir.Location = New System.Drawing.Point(783, 236)
+        Me.btnSalir.Location = New System.Drawing.Point(823, 236)
         Me.btnSalir.Name = "btnSalir"
         Me.btnSalir.Size = New System.Drawing.Size(75, 63)
         Me.btnSalir.TabIndex = 31
@@ -474,12 +478,52 @@ Partial Class frmObras
         Me.Label12.TabIndex = 43
         Me.Label12.Text = "Doble click para editar"
         '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(319, 65)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(59, 13)
+        Me.Label13.TabIndex = 45
+        Me.Label13.Text = "Almacenes"
+        '
+        'cbAlmacen
+        '
+        Me.cbAlmacen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbAlmacen.FormattingEnabled = True
+        Me.cbAlmacen.Location = New System.Drawing.Point(322, 81)
+        Me.cbAlmacen.Name = "cbAlmacen"
+        Me.cbAlmacen.Size = New System.Drawing.Size(151, 21)
+        Me.cbAlmacen.TabIndex = 44
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(484, 64)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(58, 13)
+        Me.Label14.TabIndex = 47
+        Me.Label14.Text = "Conceptos"
+        '
+        'cbConcepto
+        '
+        Me.cbConcepto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbConcepto.FormattingEnabled = True
+        Me.cbConcepto.Location = New System.Drawing.Point(487, 80)
+        Me.cbConcepto.Name = "cbConcepto"
+        Me.cbConcepto.Size = New System.Drawing.Size(200, 21)
+        Me.cbConcepto.TabIndex = 46
+        '
         'frmObras
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(910, 575)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.cbConcepto)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.cbAlmacen)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.btnDelPlan)
         Me.Controls.Add(Me.btnADDPlan)
@@ -567,4 +611,8 @@ Partial Class frmObras
     Friend WithEvents archPresupuesto As DataGridViewComboBoxColumn
     Friend WithEvents verPresu As DataGridViewButtonColumn
     Friend WithEvents Label12 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents cbAlmacen As ComboBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents cbConcepto As ComboBox
 End Class

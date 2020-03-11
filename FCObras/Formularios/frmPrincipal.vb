@@ -107,4 +107,24 @@ RegresaMenu:
         frm.ShowDialog()
         frm.Dispose()
     End Sub
+
+    Private Sub TiposInsumosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles TiposInsumosToolStripMenuItem.Click
+        Dim frm As New frmAgregaCat
+        frm.A_tipo = 2
+        frm.ShowDialog()
+        frm.Dispose()
+    End Sub
+
+    Private Sub UnidadesDeMedidaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UnidadesDeMedidaToolStripMenuItem.Click
+        Dim frm As New frmAgregaCat
+        frm.A_tipo = 1
+        frm.ShowDialog()
+        frm.Dispose()
+    End Sub
+
+    Private Sub InsumosProductosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InsumosProductosToolStripMenuItem.Click
+        Dim frm As New frmAsocProductos
+        frm.ShowDialog()
+        frm.Dispose()
+    End Sub
 End Class

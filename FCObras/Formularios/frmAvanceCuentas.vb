@@ -78,8 +78,8 @@ Public Class frmAvanceCuentas
         End Using
 
         ''INSUMOS
-        dQue = "SELECT id, codigo_insumo FROM ConsInsumos"
-        Using dCom = New SqlCommand(dQue, FC_Con)
+        dQue = "SELECT id, codigo_insumo FROM zConsInsumos"
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
             Using dCr = dCom.ExecuteReader
                 Do While dCr.Read
                     dkeyInsumo = UCase(dCr("codigo_insumo"))
@@ -92,8 +92,8 @@ Public Class frmAvanceCuentas
         End Using
 
         ''UNIDADES
-        dQue = "SELECT id,clave_unidad FROM ConsUnidades"
-        Using dCom = New SqlCommand(dQue, FC_Con)
+        dQue = "SELECT id,clave_unidad FROM zConsUnidades"
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
             Using dCr = dCom.ExecuteReader
                 Do While dCr.Read
                     dKeyUni = UCase(dCr("clave_unidad"))
@@ -128,7 +128,7 @@ Public Class frmAvanceCuentas
                 cuenta.Idobra = _d_idobra
                 cuenta.Codigo = dkey
                 cuenta.Nombrecuenta = .Cells(f, iColCuentas.iCuenta).value
-                cuenta.Codigoadw = dkey
+                cuenta.Codigoadw = ""
                 cuenta.Tipo = .Cells(f, iColCuentas.iTipoInsumo).value
 
                 cuenta.Idinsumo = 0
@@ -151,6 +151,8 @@ Public Class frmAvanceCuentas
                     cuenta.Unidad = dDicUnidades.Item(dKeyUni)
                 End If
 
+                cuenta.Idusuario = GL_cUsuario.Iduser
+                cuenta.Estatus = 1
                 cuenta.Precio = .Cells(f, iColCuentas.iPrecio).value
                 cuenta.Importe = .Cells(f, iColCuentas.iImporte).value
                 cuenta.Cantidadpendiente = .Cells(f, iColCuentas.iCantidad).value

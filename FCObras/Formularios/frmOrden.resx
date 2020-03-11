@@ -123,6 +123,9 @@
   <metadata name="movidcuentapadre.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="movcodigopadre.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="movCodigo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -130,6 +133,9 @@
     <value>True</value>
   </metadata>
   <metadata name="movbus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movcantidadPen.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="movUni.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -141,16 +147,40 @@
   <metadata name="movPre.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="movporiva.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="moviva.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movporretiva.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movretiva.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movporretisr.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movretisr.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="movTota.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="movcantidadT.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="movimporteTo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movimporteparcial.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="movprecioT.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="movtotalT.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="movcodadw.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="movidprecio.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -243,4 +273,24 @@
         ZpQGVbX04Bv/lsOdJtLCtJFSHL8D5mPLabcQQgghhCcOYWH/A3cW+qmkKAIpAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="btnRefrescar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABGdBTUEAALGPC/xhBQAAAr9JREFUOE+N
+        VG1LVEEUvtS36OUH1C+oPnX3trUWZEIRufemdqHanWu7kLopgYSikbH2ZiRIa0nkS1my9mIIm1pSSoS9
+        WfpBjASjbMWQREUxya11T3PGudvsti498MCdc87z3DPMmZGSIUV1r5Htxg5ZJToj/d6k66t5+v+BQotq
+        tFtUskAJcfy5lMtO4eXLQ7bnrFLsxJ/AZBk6m1DD5bGQdX2dopI+UbDHKIByXx00PmyDW5Qll6/BrkO5
+        giHje+s+x1puw+H1rqB/e2wW2Q66oeFBAH6HwxCPufl5qKy9A4pmCKZGO3pwN0lSNKfLTG7LOAqv+weY
+        +NPXUbhQcxNcReVwrPQ81DS1wMTUNMv5A08EQ0o7IcxM1/WVNBA0EzeaW5mgrbuHmUcFnGkODwwMDbOa
+        ogpfNE6nYIR1uUVz7hQFen4JVNX7wZrADHm87BL0DX5khpPTM/DsZS9keYpZju7UJtH9e+NFyYgdTs3M
+        MkPE8MhodCeKRs5QQ9IgCry+Wmjp6IquE7Gs6jozW1xcBFJYFo0rdqNOklXjvhnAMZmd+wGRSAQ8pyui
+        hYn4orcfmlo7YmLoJVk0Um0Gnva8ZX9GBL+Ns/ERBSJxHm1ZrpgYNbyChvm4yMwrgrHx77AQCjHDiclp
+        KKWDLApEniivhL3ZBTExWXV6pO3pxnq6iJjBc1frmSFuKb4Dk9WN91jN3UedYjxizXRsYLPIHwKW2Epv
+        QNerd0ww/CXIusROUg/nQu6pi9DNc5+DY7D7SJ5gaASYGcKyn2ymwV9mEsegOdAJ4QRXD/H8TR87wL9m
+        JGTVHBu53RLE62cSBxavGw4vEh8Jd/HZmBokfVRyuE0s6PU5SQvC8YIkDNNDLeTyxFDSHWm08EOc8F9q
+        ZJCOSSqXJQc+GPRwMqjwNuUQ5RznkKI6G2W78wDW8HIBkvQHT2DJ3sLh0cQAAAAASUVORK5CYII=
+</value>
+  </data>
+  <metadata name="toltip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

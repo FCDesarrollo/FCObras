@@ -22,13 +22,13 @@ Partial Class frmCuentas
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCuentas))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCuentas))
         Me.btnSiguien = New System.Windows.Forms.Button()
         Me.txtBuscar = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -38,6 +38,7 @@ Partial Class frmCuentas
         Me.dtFechaI = New System.Windows.Forms.DateTimePicker()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
+        Me.btnbusCuen = New System.Windows.Forms.Button()
         Me.txtnombrecuenta = New System.Windows.Forms.TextBox()
         Me.txtCuenta = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -79,13 +80,12 @@ Partial Class frmCuentas
         Me.planfechai = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.planfechaF = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.btnbusSub = New System.Windows.Forms.Button()
         Me.btnCarga = New System.Windows.Forms.Button()
         Me.btnSalir = New System.Windows.Forms.Button()
         Me.btnEliminar = New System.Windows.Forms.Button()
         Me.btnGuardar = New System.Windows.Forms.Button()
         Me.btnNuevo = New System.Windows.Forms.Button()
-        Me.btnbusSub = New System.Windows.Forms.Button()
-        Me.btnbusCuen = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         CType(Me.dgPrecios, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
@@ -179,6 +179,17 @@ Partial Class frmCuentas
         Me.Label8.Size = New System.Drawing.Size(86, 13)
         Me.Label8.TabIndex = 23
         Me.Label8.Text = "Fecha Inicio*:"
+        '
+        'btnbusCuen
+        '
+        Me.btnbusCuen.BackColor = System.Drawing.Color.Transparent
+        Me.btnbusCuen.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnbusCuen.Image = CType(resources.GetObject("btnbusCuen.Image"), System.Drawing.Image)
+        Me.btnbusCuen.Location = New System.Drawing.Point(241, 3)
+        Me.btnbusCuen.Name = "btnbusCuen"
+        Me.btnbusCuen.Size = New System.Drawing.Size(30, 22)
+        Me.btnbusCuen.TabIndex = 22
+        Me.btnbusCuen.UseVisualStyleBackColor = False
         '
         'txtnombrecuenta
         '
@@ -615,6 +626,17 @@ Partial Class frmCuentas
         Me.Label1.TabIndex = 42
         Me.Label1.Text = "Historial Fechas"
         '
+        'btnbusSub
+        '
+        Me.btnbusSub.BackColor = System.Drawing.Color.Transparent
+        Me.btnbusSub.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnbusSub.Image = CType(resources.GetObject("btnbusSub.Image"), System.Drawing.Image)
+        Me.btnbusSub.Location = New System.Drawing.Point(257, 29)
+        Me.btnbusSub.Name = "btnbusSub"
+        Me.btnbusSub.Size = New System.Drawing.Size(30, 22)
+        Me.btnbusSub.TabIndex = 21
+        Me.btnbusSub.UseVisualStyleBackColor = False
+        '
         'btnCarga
         '
         Me.btnCarga.BackColor = System.Drawing.Color.Green
@@ -644,6 +666,7 @@ Partial Class frmCuentas
         'btnEliminar
         '
         Me.btnEliminar.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer))
+        Me.btnEliminar.Enabled = False
         Me.btnEliminar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnEliminar.Image = CType(resources.GetObject("btnEliminar.Image"), System.Drawing.Image)
         Me.btnEliminar.Location = New System.Drawing.Point(746, 9)
@@ -679,28 +702,6 @@ Partial Class frmCuentas
         Me.btnNuevo.Text = "Nuevo"
         Me.btnNuevo.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnNuevo.UseVisualStyleBackColor = False
-        '
-        'btnbusSub
-        '
-        Me.btnbusSub.BackColor = System.Drawing.Color.Transparent
-        Me.btnbusSub.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnbusSub.Image = CType(resources.GetObject("btnbusSub.Image"), System.Drawing.Image)
-        Me.btnbusSub.Location = New System.Drawing.Point(257, 29)
-        Me.btnbusSub.Name = "btnbusSub"
-        Me.btnbusSub.Size = New System.Drawing.Size(30, 22)
-        Me.btnbusSub.TabIndex = 21
-        Me.btnbusSub.UseVisualStyleBackColor = False
-        '
-        'btnbusCuen
-        '
-        Me.btnbusCuen.BackColor = System.Drawing.Color.Transparent
-        Me.btnbusCuen.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnbusCuen.Image = CType(resources.GetObject("btnbusCuen.Image"), System.Drawing.Image)
-        Me.btnbusCuen.Location = New System.Drawing.Point(241, 3)
-        Me.btnbusCuen.Name = "btnbusCuen"
-        Me.btnbusCuen.Size = New System.Drawing.Size(30, 22)
-        Me.btnbusCuen.TabIndex = 22
-        Me.btnbusCuen.UseVisualStyleBackColor = False
         '
         'frmCuentas
         '

@@ -36,8 +36,11 @@ Partial Class frmPrincipal
         Me.ObrasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PlanCronologicoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ClasificacionesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TiposInsumosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UnidadesDeMedidaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MSep3 = New System.Windows.Forms.ToolStripSeparator()
         Me.MConfig = New System.Windows.Forms.ToolStripButton()
+        Me.InsumosProductosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PMenu.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -120,7 +123,7 @@ Partial Class frmPrincipal
         '
         Me.MCatalogos.AutoSize = False
         Me.MCatalogos.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
-        Me.MCatalogos.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ObrasToolStripMenuItem, Me.PlanCronologicoToolStripMenuItem, Me.ClasificacionesToolStripMenuItem})
+        Me.MCatalogos.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ObrasToolStripMenuItem, Me.PlanCronologicoToolStripMenuItem, Me.ClasificacionesToolStripMenuItem, Me.TiposInsumosToolStripMenuItem, Me.UnidadesDeMedidaToolStripMenuItem, Me.InsumosProductosToolStripMenuItem})
         Me.MCatalogos.Image = CType(resources.GetObject("MCatalogos.Image"), System.Drawing.Image)
         Me.MCatalogos.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None
         Me.MCatalogos.ImageTransparentColor = System.Drawing.Color.Magenta
@@ -133,20 +136,32 @@ Partial Class frmPrincipal
         'ObrasToolStripMenuItem
         '
         Me.ObrasToolStripMenuItem.Name = "ObrasToolStripMenuItem"
-        Me.ObrasToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ObrasToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
         Me.ObrasToolStripMenuItem.Text = "- Obras"
         '
         'PlanCronologicoToolStripMenuItem
         '
         Me.PlanCronologicoToolStripMenuItem.Name = "PlanCronologicoToolStripMenuItem"
-        Me.PlanCronologicoToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.PlanCronologicoToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
         Me.PlanCronologicoToolStripMenuItem.Text = "- Plan Cronologico"
         '
         'ClasificacionesToolStripMenuItem
         '
         Me.ClasificacionesToolStripMenuItem.Name = "ClasificacionesToolStripMenuItem"
-        Me.ClasificacionesToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ClasificacionesToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
         Me.ClasificacionesToolStripMenuItem.Text = "- Clasificaciones"
+        '
+        'TiposInsumosToolStripMenuItem
+        '
+        Me.TiposInsumosToolStripMenuItem.Name = "TiposInsumosToolStripMenuItem"
+        Me.TiposInsumosToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
+        Me.TiposInsumosToolStripMenuItem.Text = "- Tipos Insumos"
+        '
+        'UnidadesDeMedidaToolStripMenuItem
+        '
+        Me.UnidadesDeMedidaToolStripMenuItem.Name = "UnidadesDeMedidaToolStripMenuItem"
+        Me.UnidadesDeMedidaToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
+        Me.UnidadesDeMedidaToolStripMenuItem.Text = "- Unidades de Medida"
         '
         'MSep3
         '
@@ -165,6 +180,12 @@ Partial Class frmPrincipal
         Me.MConfig.Tag = "-1"
         Me.MConfig.Text = "Configuración"
         Me.MConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
+        '
+        'InsumosProductosToolStripMenuItem
+        '
+        Me.InsumosProductosToolStripMenuItem.Name = "InsumosProductosToolStripMenuItem"
+        Me.InsumosProductosToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
+        Me.InsumosProductosToolStripMenuItem.Text = "- Insumos/Productos"
         '
         'frmPrincipal
         '
@@ -199,4 +220,7 @@ Partial Class frmPrincipal
     Friend WithEvents ObrasToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PlanCronologicoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ClasificacionesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents TiposInsumosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents UnidadesDeMedidaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents InsumosProductosToolStripMenuItem As ToolStripMenuItem
 End Class

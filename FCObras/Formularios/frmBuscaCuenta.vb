@@ -3,7 +3,7 @@
 Public Class frmBuscaCuenta
     Private dtCuentas As DataTable
 
-    Private _d_idcuentafiltro As Integer
+    Private _d_filtro As String
 
     Private _regcuenta As New clCuenta
 
@@ -29,14 +29,6 @@ Public Class frmBuscaCuenta
     End Property
 
 
-    Public Property D_idcuentafiltro As Integer
-        Get
-            Return _d_idcuentafiltro
-        End Get
-        Set(value As Integer)
-            _d_idcuentafiltro = value
-        End Set
-    End Property
 
     Public Property Regcuenta As clCuenta
         Get
@@ -47,11 +39,20 @@ Public Class frmBuscaCuenta
         End Set
     End Property
 
+    Public Property D_filtro As String
+        Get
+            Return _d_filtro
+        End Get
+        Set(value As String)
+            _d_filtro = value
+        End Set
+    End Property
+
     Private Sub FrmBuscaCuenta_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim cuenta As New clCuenta, filtro As String
-        filtro = "AND id<> " & D_idcuentafiltro
+        Dim cuenta As New clCuenta
+
         cuenta.Idobra = _d_idobra
-        dtCuentas = cuenta.Carga_Cuentas(filtro)
+        dtCuentas = cuenta.Carga_Cuentas(_d_filtro)
         Carga_cuentas()
     End Sub
 

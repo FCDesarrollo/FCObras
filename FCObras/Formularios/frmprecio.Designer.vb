@@ -23,29 +23,30 @@ Partial Class frmprecio
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmprecio))
-        Me.DateTimePicker1 = New System.Windows.Forms.DateTimePicker()
+        Me.dtFecha = New System.Windows.Forms.DateTimePicker()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.txtImporte = New System.Windows.Forms.TextBox()
+        Me.txtPrecio = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.cbPresupuesto = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtPrecio = New System.Windows.Forms.TextBox()
+        Me.txtImporte = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtCantidad = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnSalir = New System.Windows.Forms.Button()
         Me.btnGuardar = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
-        'DateTimePicker1
+        'dtFecha
         '
-        Me.DateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.DateTimePicker1.Location = New System.Drawing.Point(315, 4)
-        Me.DateTimePicker1.Name = "DateTimePicker1"
-        Me.DateTimePicker1.Size = New System.Drawing.Size(96, 20)
-        Me.DateTimePicker1.TabIndex = 27
+        Me.dtFecha.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtFecha.Location = New System.Drawing.Point(315, 4)
+        Me.dtFecha.Name = "dtFecha"
+        Me.dtFecha.Size = New System.Drawing.Size(96, 20)
+        Me.dtFecha.TabIndex = 27
         '
         'Label11
         '
@@ -56,12 +57,12 @@ Partial Class frmprecio
         Me.Label11.TabIndex = 26
         Me.Label11.Text = "Fecha"
         '
-        'txtImporte
+        'txtPrecio
         '
-        Me.txtImporte.Location = New System.Drawing.Point(160, 39)
-        Me.txtImporte.Name = "txtImporte"
-        Me.txtImporte.Size = New System.Drawing.Size(90, 20)
-        Me.txtImporte.TabIndex = 25
+        Me.txtPrecio.Location = New System.Drawing.Point(160, 39)
+        Me.txtPrecio.Name = "txtPrecio"
+        Me.txtPrecio.Size = New System.Drawing.Size(90, 20)
+        Me.txtPrecio.TabIndex = 25
         '
         'Label9
         '
@@ -74,10 +75,11 @@ Partial Class frmprecio
         '
         'cbPresupuesto
         '
+        Me.cbPresupuesto.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbPresupuesto.FormattingEnabled = True
         Me.cbPresupuesto.Location = New System.Drawing.Point(81, 3)
         Me.cbPresupuesto.Name = "cbPresupuesto"
-        Me.cbPresupuesto.Size = New System.Drawing.Size(161, 21)
+        Me.cbPresupuesto.Size = New System.Drawing.Size(169, 21)
         Me.cbPresupuesto.TabIndex = 19
         '
         'Label1
@@ -89,12 +91,13 @@ Partial Class frmprecio
         Me.Label1.TabIndex = 20
         Me.Label1.Text = "Presupuesto:"
         '
-        'txtPrecio
+        'txtImporte
         '
-        Me.txtPrecio.Location = New System.Drawing.Point(304, 39)
-        Me.txtPrecio.Name = "txtPrecio"
-        Me.txtPrecio.Size = New System.Drawing.Size(107, 20)
-        Me.txtPrecio.TabIndex = 23
+        Me.txtImporte.Enabled = False
+        Me.txtImporte.Location = New System.Drawing.Point(304, 39)
+        Me.txtImporte.Name = "txtImporte"
+        Me.txtImporte.Size = New System.Drawing.Size(107, 20)
+        Me.txtImporte.TabIndex = 23
         '
         'Label8
         '
@@ -127,11 +130,11 @@ Partial Class frmprecio
         Me.Panel1.Controls.Add(Me.cbPresupuesto)
         Me.Panel1.Controls.Add(Me.Label10)
         Me.Panel1.Controls.Add(Me.Label1)
-        Me.Panel1.Controls.Add(Me.txtImporte)
-        Me.Panel1.Controls.Add(Me.DateTimePicker1)
+        Me.Panel1.Controls.Add(Me.txtPrecio)
+        Me.Panel1.Controls.Add(Me.dtFecha)
         Me.Panel1.Controls.Add(Me.Label9)
         Me.Panel1.Controls.Add(Me.Label11)
-        Me.Panel1.Controls.Add(Me.txtPrecio)
+        Me.Panel1.Controls.Add(Me.txtImporte)
         Me.Panel1.Controls.Add(Me.txtCantidad)
         Me.Panel1.Controls.Add(Me.Label8)
         Me.Panel1.Location = New System.Drawing.Point(12, 12)
@@ -144,7 +147,7 @@ Partial Class frmprecio
         Me.btnSalir.BackColor = System.Drawing.Color.Silver
         Me.btnSalir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSalir.Image = CType(resources.GetObject("btnSalir.Image"), System.Drawing.Image)
-        Me.btnSalir.Location = New System.Drawing.Point(238, 85)
+        Me.btnSalir.Location = New System.Drawing.Point(364, 113)
         Me.btnSalir.Name = "btnSalir"
         Me.btnSalir.Size = New System.Drawing.Size(73, 43)
         Me.btnSalir.TabIndex = 37
@@ -157,7 +160,7 @@ Partial Class frmprecio
         Me.btnGuardar.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.btnGuardar.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnGuardar.Image = CType(resources.GetObject("btnGuardar.Image"), System.Drawing.Image)
-        Me.btnGuardar.Location = New System.Drawing.Point(133, 85)
+        Me.btnGuardar.Location = New System.Drawing.Point(276, 113)
         Me.btnGuardar.Name = "btnGuardar"
         Me.btnGuardar.Size = New System.Drawing.Size(75, 43)
         Me.btnGuardar.TabIndex = 36
@@ -165,11 +168,21 @@ Partial Class frmprecio
         Me.btnGuardar.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnGuardar.UseVisualStyleBackColor = False
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(12, 82)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(135, 13)
+        Me.Label2.TabIndex = 38
+        Me.Label2.Text = "Nota: agregar datos totales"
+        '
         'frmprecio
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(438, 132)
+        Me.ClientSize = New System.Drawing.Size(438, 159)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.btnSalir)
         Me.Controls.Add(Me.btnGuardar)
         Me.Controls.Add(Me.Panel1)
@@ -179,20 +192,22 @@ Partial Class frmprecio
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
-    Friend WithEvents DateTimePicker1 As DateTimePicker
+    Friend WithEvents dtFecha As DateTimePicker
     Friend WithEvents Label11 As Label
-    Friend WithEvents txtImporte As TextBox
+    Friend WithEvents txtPrecio As TextBox
     Friend WithEvents Label9 As Label
     Friend WithEvents cbPresupuesto As ComboBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents txtPrecio As TextBox
+    Friend WithEvents txtImporte As TextBox
     Friend WithEvents Label8 As Label
     Friend WithEvents txtCantidad As TextBox
     Friend WithEvents Label10 As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents btnSalir As Button
     Friend WithEvents btnGuardar As Button
+    Friend WithEvents Label2 As Label
 End Class

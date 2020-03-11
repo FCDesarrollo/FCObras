@@ -25,7 +25,7 @@ Partial Class frmProveedores
         Me.dgProveedores = New System.Windows.Forms.DataGridView()
         Me.procodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.proNombre = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.txtBus = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -63,12 +63,12 @@ Partial Class frmProveedores
         Me.proNombre.ReadOnly = True
         Me.proNombre.Width = 330
         '
-        'TextBox1
+        'txtBus
         '
-        Me.TextBox1.Location = New System.Drawing.Point(179, 7)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(289, 20)
-        Me.TextBox1.TabIndex = 28
+        Me.txtBus.Location = New System.Drawing.Point(179, 7)
+        Me.txtBus.Name = "txtBus"
+        Me.txtBus.Size = New System.Drawing.Size(289, 20)
+        Me.txtBus.TabIndex = 28
         '
         'Label1
         '
@@ -105,8 +105,9 @@ Partial Class frmProveedores
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.txtBus)
         Me.Controls.Add(Me.dgProveedores)
+        Me.KeyPreview = True
         Me.MaximizeBox = False
         Me.MinimizeBox = False
         Me.Name = "frmProveedores"
@@ -121,7 +122,7 @@ Partial Class frmProveedores
     Friend WithEvents dgProveedores As DataGridView
     Friend WithEvents procodigo As DataGridViewTextBoxColumn
     Friend WithEvents proNombre As DataGridViewTextBoxColumn
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents txtBus As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label

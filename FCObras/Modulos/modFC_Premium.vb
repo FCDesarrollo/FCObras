@@ -9,8 +9,8 @@ Module modFC_Premium
         Dim cpCom As SqlCommand
         Dim cQue As String
         FC_Con.Close()
-        fError = FC_Conexion()
-        If fError <> 0 Then Exit Sub
+        fCError = FC_Conexion()
+        If fCError <> 0 Then Exit Sub
         cQue = "IF OBJECT_ID('dbo.Instancias') IS NULL " &
                     "Begin CREATE TABLE [dbo].[Instancias]([id] [int] NULL,[nombre] [nvarchar](20) NULL," &
                     "[server] [nvarchar](50) NULL,[uid] [nvarchar](30) NULL,[pwd] [nvarchar](60) NULL) ON [PRIMARY] END"
@@ -104,6 +104,37 @@ Module modFC_Premium
         cpCom = New SqlCommand(cQue, FC_Con)
         cpCom.ExecuteNonQuery()
         cpCom.Dispose()
+
+        If Get_numeroUnidades() = 0 Then
+            cQue = "INSERT INTO ConsUnidades(clave_unidad,nombre_unidad)VALUES('habitacion','habitacion')
+                INSERT INTO ConsUnidades(clave_unidad,nombre_unidad)VALUES('mt2','metros cuadrados')
+                INSERT INTO ConsUnidades(clave_unidad,nombre_unidad)VALUES('litros','Litros')
+                INSERT INTO ConsUnidades(clave_unidad,nombre_unidad)VALUES('juego','Juego')
+                INSERT INTO ConsUnidades(clave_unidad,nombre_unidad)VALUES('servicio','Servicio')
+                INSERT INTO ConsUnidades(clave_unidad,nombre_unidad)VALUES('m2','metros')"
+            cpCom = New SqlCommand(cQue, FC_Con)
+            cpCom.ExecuteNonQuery()
+            cpCom.Dispose()
+        End If
+
+        If Get_numeroInsumos() = 0 Then
+            cQue = "INSERT INTO ConsInsumos(codigo_insumo, nombre_insumo)VALUES('MAT','MATERIAL')
+                INSERT INTO ConsInsumos(codigo_insumo, nombre_insumo)VALUES('MO','MANO DE OBRA')"
+
+            cpCom = New SqlCommand(cQue, FC_Con)
+            cpCom.ExecuteNonQuery()
+            cpCom.Dispose()
+        End If
+
+        cQue = "IF OBJECT_ID('dbo.ConsInsumos') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[ConsInsumos](
+	                    [id] [int] IDENTITY(1,1) NOT NULL,
+	                    [codigo_insumo] [nvarchar](60) NULL,
+	                    [nombre_insumo] [nvarchar](250) NULL
+                    ) ON [PRIMARY] END"
+        cpCom = New SqlCommand(cQue, FC_Con)
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
     End Sub
 
     Public Function VerificaTablas() As Boolean
@@ -188,7 +219,7 @@ Module modFC_Premium
     End Function
 
     Public Sub CreaTablas_ModConstruccion(ByVal dBdd As String)
-        Dim cQue As String, cpCom As SqlCommand
+        Dim cQue As String, cpCom As SqlCommand, dQue As String
         If IsNothing(DConexiones) Then FC_GetCons()
         DConexiones("CON").ChangeDatabase(dBdd)
 
@@ -196,12 +227,14 @@ Module modFC_Premium
                     "Begin CREATE TABLE [dbo].[zConsObras](
 	                    [id] [int] IDENTITY(1,1) NOT NULL,
 	                    [idsucursal] [int] NOT NULL,
+	                    [idalmacen] [int] NOT NULL,
+	                    [idconcepto] [int] NOT NULL,
 	                    [nombre_obra] [nvarchar](250) NOT NULL,
 	                    [fecha_inicial] [date] NOT NULL,
 	                    [fecha_final] [date] NOT NULL,
 	                    [descripcion] [ntext] NULL,
 	                    [estatus] [int] NOT NULL
-                    ) ON [PRIMARY]  END"
+                    ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]  END"
         cpCom = New SqlCommand(cQue, DConexiones("CON"))
         cpCom.ExecuteNonQuery()
         cpCom.Dispose()
@@ -215,8 +248,9 @@ Module modFC_Premium
 	                    [codigo] [nvarchar](150) NULL,
 	                    [nombre_cuenta] [nvarchar](250) NULL,
 	                    [codigo_adw] [nvarchar](150) NULL,
+                        [unidad] [int] NULL,
 	                    [clasificacion1] [int] NULL,
-	                    [clasificaicon2] [int] NULL,
+	                    [clasificacion2] [int] NULL,
 	                    [clasificacion3] [int] NULL,
 	                    [tipoinsumo] [int] NULL,
 	                    [idinsumo] [int] NULL
@@ -240,8 +274,10 @@ Module modFC_Premium
                     "Begin CREATE TABLE [dbo].[zConsPresupuestos](
 	                    [id] [int] IDENTITY(1,1) NOT NULL,
 	                    [id_obra] [int] NULL,
+                        [id_usuario] [int] NOT NULL,
 	                    [nombre_presupuesto] [nvarchar](250) NULL,
-	                    [descripcion] [nvarchar](250) NULL
+	                    [descripcion] [nvarchar](250) NULL,
+                        [estatus] [int] NOT NULL,
                     ) ON [PRIMARY]  END"
         cpCom = New SqlCommand(cQue, DConexiones("CON"))
         cpCom.ExecuteNonQuery()
@@ -261,6 +297,7 @@ Module modFC_Premium
         cQue = "IF OBJECT_ID('dbo.zConsAsociacionesPrecios') IS NULL " &
                     "Begin CREATE TABLE [dbo].[zConsAsociacionesPrecios](
 	                    [id] [int] IDENTITY(1,1) NOT NULL,
+                        [id_usuario] [int] NOT NULL,
                         [id_obra] [int] NULL,
 	                    [id_cuenta] [int] NOT NULL,
 	                    [id_cuentapadre] [int] NOT NULL,
@@ -274,6 +311,7 @@ Module modFC_Premium
 	                    [importe] [numeric](18, 2) NULL,
 	                    [cantidad_pendiente] [numeric](18, 2) NULL,
 	                    [importe_pendiente] [numeric](18, 2) NULL,
+                        [estatus] [int] NOT NULL,
                     ) ON [PRIMARY]  END"
         cpCom = New SqlCommand(cQue, DConexiones("CON"))
         cpCom.ExecuteNonQuery()
@@ -285,6 +323,113 @@ Module modFC_Premium
 	                    [nombre_clasificacion] [nvarchar](250) NULL,
 	                    [tipo] [int] NULL
                     ) ON [PRIMARY]  END"
+        cpCom = New SqlCommand(cQue, DConexiones("CON"))
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
+
+        cQue = "IF OBJECT_ID('dbo.zConsConceptos') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[zConsConceptos](
+	                    [id] [int] IDENTITY(1,1) NOT NULL,
+	                    [idsucursal] [int] NOT NULL,
+	                    [nombresucursal] [nvarchar](150) NULL,
+	                    [idconcepto] [int] NOT NULL,
+	                    [codigo] [nvarchar](60) NULL,
+	                    [nombre] [nvarchar](250) NULL,
+	                    [tipo] [int] NULL
+                    ) ON [PRIMARY]  END"
+        cpCom = New SqlCommand(cQue, DConexiones("CON"))
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
+
+        cQue = "IF OBJECT_ID('dbo.zConsUnidades') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[zConsUnidades](
+	                [id] [int] IDENTITY(1,1) NOT NULL,
+	                [clave_unidad] [nvarchar](60) NULL,
+	                [nombre_unidad] [nvarchar](250) NULL
+                ) ON [PRIMARY] END"
+        cpCom = New SqlCommand(cQue, DConexiones("CON"))
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
+
+        cQue = "SELECT  clave_unidad,nombre_unidad FROM ConsUnidades"
+        Using dCom = New SqlCommand(cQue, FC_Con)
+            Using dCr = dCom.ExecuteReader
+                Do While dCr.Read
+                    dQue = "INSERT INTO zConsUnidades(clave_unidad,nombre_unidad)
+                                        VALUES(" & dCr("clave_unidad") & "," & dCr("nombre_unidad") & ")"
+                    cpCom = New SqlCommand(dQue, DConexiones("CON"))
+                    cpCom.ExecuteNonQuery()
+                    cpCom.Dispose()
+                Loop
+            End Using
+        End Using
+
+        cQue = "IF OBJECT_ID('dbo.zConsInsumos') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[zConsInsumos](
+	                    [id] [int] IDENTITY(1,1) NOT NULL,
+	                    [codigo_insumo] [nvarchar](60) NULL,
+	                    [nombre_insumo] [nvarchar](250) NULL
+                    ) ON [PRIMARY] END"
+        cpCom = New SqlCommand(cQue, DConexiones("CON"))
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
+
+        cQue = "SELECT  codigo_insumo, nombre_insumo FROM ConsInsumos"
+        Using dCom = New SqlCommand(cQue, FC_Con)
+            Using dCr = dCom.ExecuteReader
+                Do While dCr.Read
+                    dQue = "INSERT INTO zConsInsumos(codigo_insumo, nombre_insumo)
+                                        VALUES(" & dCr("codigo_insumo") & "," & dCr("nombre_insumo") & ")"
+                    cpCom = New SqlCommand(dQue, DConexiones("CON"))
+                    cpCom.ExecuteNonQuery()
+                    cpCom.Dispose()
+                Loop
+            End Using
+        End Using
+
+        cQue = "IF OBJECT_ID('dbo.zConsDocCampos') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[zConsDocCampos](
+	                    [id] [int] IDENTITY(1,1) NOT NULL,
+	                    [idusuario] [int] NULL,
+	                    [idsucursal] [int] NULL,
+	                    [iddocadw] [int] NULL,
+	                    [fecha] [date] NULL,
+	                    [idobra] [int] NULL,
+	                    [enviado_prove] [int] NULL,
+	                    [estado] [int] NULL,
+	                    [esanticipo] [int] NULL,
+	                    [validado] [int] NULL
+                    ) ON [PRIMARY] END"
+        cpCom = New SqlCommand(cQue, DConexiones("CON"))
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
+
+        cQue = "IF OBJECT_ID('dbo.zConsDoc_MovCampos') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[zConsDoc_MovCampos](
+	                    [id] [int] IDENTITY(1,1) NOT NULL,
+	                    [iddocadw] [int] NULL,
+	                    [idmovadw] [int] NULL,
+	                    [validado] [int] NULL,
+	                    [idasocprecio] [int] NULL,
+	                    [cantidaddisponible] [int] NULL,
+	                    [cantidad] [int] NULL,
+	                    [precio] [numeric](18, 2) NULL,
+	                    [total] [numeric](18, 2) NULL,
+	                    [totalpresupuesto] [numeric](18, 2) NULL,
+	                    [estado] [int] NULL
+                    ) ON [PRIMARY] END"
+        cpCom = New SqlCommand(cQue, DConexiones("CON"))
+        cpCom.ExecuteNonQuery()
+        cpCom.Dispose()
+
+        cQue = "IF OBJECT_ID('dbo.zConsInsumosAsoc') IS NULL " &
+                    "Begin CREATE TABLE [dbo].[zConsInsumosAsoc](
+	                    [id] [int] IDENTITY(1,1) NOT NULL,
+	                    [idcuenta] [int] NULL,
+	                    [idsucursal] [int] NULL,
+	                    [codigoinsumo] [nvarchar](100) NULL,
+	                    [codigoadw] [nvarchar](100) NULL
+                    ) ON [PRIMARY] END"
         cpCom = New SqlCommand(cQue, DConexiones("CON"))
         cpCom.ExecuteNonQuery()
         cpCom.Dispose()

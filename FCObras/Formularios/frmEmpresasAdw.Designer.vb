@@ -28,10 +28,12 @@ Partial Class frmEmpresasAdw
         Me.empsele = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.empnom = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.empsucu = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.btnSalir = New System.Windows.Forms.Button()
         Me.rbAdmin = New System.Windows.Forms.RadioButton()
         Me.rbcomercial = New System.Windows.Forms.RadioButton()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.btnSalir = New System.Windows.Forms.Button()
+        Me.btnAgregar = New System.Windows.Forms.Button()
         CType(Me.dgEmpresas, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,18 +88,10 @@ Partial Class frmEmpresasAdw
         Me.empsucu.Name = "empsucu"
         Me.empsucu.Width = 130
         '
-        'btnSalir
-        '
-        Me.btnSalir.Location = New System.Drawing.Point(233, 323)
-        Me.btnSalir.Name = "btnSalir"
-        Me.btnSalir.Size = New System.Drawing.Size(75, 33)
-        Me.btnSalir.TabIndex = 24
-        Me.btnSalir.Text = "Salir"
-        Me.btnSalir.UseVisualStyleBackColor = True
-        '
         'rbAdmin
         '
         Me.rbAdmin.AutoSize = True
+        Me.rbAdmin.Checked = True
         Me.rbAdmin.Location = New System.Drawing.Point(15, 19)
         Me.rbAdmin.Name = "rbAdmin"
         Me.rbAdmin.Size = New System.Drawing.Size(76, 17)
@@ -116,6 +110,7 @@ Partial Class frmEmpresasAdw
         Me.rbcomercial.TabStop = True
         Me.rbcomercial.Text = "Comercial"
         Me.rbcomercial.UseVisualStyleBackColor = True
+        Me.rbcomercial.Visible = False
         '
         'Label1
         '
@@ -126,12 +121,41 @@ Partial Class frmEmpresasAdw
         Me.Label1.TabIndex = 27
         Me.Label1.Text = "Seleccionar el sistena que maneja:"
         '
+        'Label2
+        '
+        Me.Label2.Location = New System.Drawing.Point(2, 320)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(252, 33)
+        Me.Label2.TabIndex = 28
+        Me.Label2.Text = "Solo se asignaran las empresas que esten seleccionadas y con nombre de sucursal."
+        '
+        'btnSalir
+        '
+        Me.btnSalir.Location = New System.Drawing.Point(456, 323)
+        Me.btnSalir.Name = "btnSalir"
+        Me.btnSalir.Size = New System.Drawing.Size(75, 33)
+        Me.btnSalir.TabIndex = 24
+        Me.btnSalir.Text = "Salir"
+        Me.btnSalir.UseVisualStyleBackColor = True
+        '
+        'btnAgregar
+        '
+        Me.btnAgregar.BackColor = System.Drawing.Color.FromArgb(CType(CType(128, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.btnAgregar.Location = New System.Drawing.Point(375, 323)
+        Me.btnAgregar.Name = "btnAgregar"
+        Me.btnAgregar.Size = New System.Drawing.Size(75, 33)
+        Me.btnAgregar.TabIndex = 29
+        Me.btnAgregar.Text = "Agregar"
+        Me.btnAgregar.UseVisualStyleBackColor = False
+        '
         'frmEmpresasAdw
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
         Me.ClientSize = New System.Drawing.Size(542, 362)
+        Me.Controls.Add(Me.btnAgregar)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.rbcomercial)
         Me.Controls.Add(Me.rbAdmin)
@@ -154,8 +178,10 @@ Partial Class frmEmpresasAdw
     Friend WithEvents empsele As DataGridViewCheckBoxColumn
     Friend WithEvents empnom As DataGridViewTextBoxColumn
     Friend WithEvents empsucu As DataGridViewTextBoxColumn
-    Friend WithEvents btnSalir As Button
     Friend WithEvents rbAdmin As RadioButton
     Friend WithEvents rbcomercial As RadioButton
     Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents btnSalir As Button
+    Friend WithEvents btnAgregar As Button
 End Class

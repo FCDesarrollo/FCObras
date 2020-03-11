@@ -29,6 +29,10 @@ Partial Class frmClasificacion
         Me.Label2 = New System.Windows.Forms.Label()
         Me.cbtipo = New System.Windows.Forms.ComboBox()
         Me.dgClasificaciones = New System.Windows.Forms.DataGridView()
+        Me.idcrono = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.nomCrono = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.clatipo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.clastipo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.btnDelClas = New System.Windows.Forms.Button()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -37,10 +41,6 @@ Partial Class frmClasificacion
         Me.btnGuardar = New System.Windows.Forms.Button()
         Me.btnNuevo = New System.Windows.Forms.Button()
         Me.ttTextos = New System.Windows.Forms.ToolTip(Me.components)
-        Me.idcrono = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.nomCrono = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.clatipo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.clastipo = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.dgClasificaciones, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -94,6 +94,32 @@ Partial Class frmClasificacion
         Me.dgClasificaciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgClasificaciones.Size = New System.Drawing.Size(371, 173)
         Me.dgClasificaciones.TabIndex = 27
+        '
+        'idcrono
+        '
+        Me.idcrono.HeaderText = "id"
+        Me.idcrono.Name = "idcrono"
+        Me.idcrono.Visible = False
+        '
+        'nomCrono
+        '
+        Me.nomCrono.HeaderText = "Nombre"
+        Me.nomCrono.Name = "nomCrono"
+        Me.nomCrono.ReadOnly = True
+        Me.nomCrono.Width = 180
+        '
+        'clatipo
+        '
+        Me.clatipo.HeaderText = "Tipo Clasificación"
+        Me.clatipo.Name = "clatipo"
+        Me.clatipo.ReadOnly = True
+        Me.clatipo.Width = 180
+        '
+        'clastipo
+        '
+        Me.clastipo.HeaderText = "tipo"
+        Me.clastipo.Name = "clastipo"
+        Me.clastipo.Visible = False
         '
         'Label3
         '
@@ -167,32 +193,6 @@ Partial Class frmClasificacion
         Me.btnNuevo.Text = "Nuevo"
         Me.btnNuevo.TextAlign = System.Drawing.ContentAlignment.BottomCenter
         Me.btnNuevo.UseVisualStyleBackColor = False
-        '
-        'idcrono
-        '
-        Me.idcrono.HeaderText = "id"
-        Me.idcrono.Name = "idcrono"
-        Me.idcrono.Visible = False
-        '
-        'nomCrono
-        '
-        Me.nomCrono.HeaderText = "Nombre"
-        Me.nomCrono.Name = "nomCrono"
-        Me.nomCrono.ReadOnly = True
-        Me.nomCrono.Width = 180
-        '
-        'clatipo
-        '
-        Me.clatipo.HeaderText = "Tipo Clasificación"
-        Me.clatipo.Name = "clatipo"
-        Me.clatipo.ReadOnly = True
-        Me.clatipo.Width = 180
-        '
-        'clastipo
-        '
-        Me.clastipo.HeaderText = "tipo"
-        Me.clastipo.Name = "clastipo"
-        Me.clastipo.Visible = False
         '
         'frmClasificacion
         '

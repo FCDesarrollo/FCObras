@@ -6,6 +6,9 @@ Public Class clPresupuesto
     Private _nombrepresupuesto As String
     Private _descripcion As String
 
+    Private _idusuario As Integer
+    Private _status As Integer
+
     Public Property Id As Integer
         Get
             Return _id
@@ -42,16 +45,37 @@ Public Class clPresupuesto
         End Set
     End Property
 
+    Public Property Idusuario As Integer
+        Get
+            Return _idusuario
+        End Get
+        Set(value As Integer)
+            _idusuario = value
+        End Set
+    End Property
+
+    Public Property Status As Integer
+        Get
+            Return _status
+        End Get
+        Set(value As Integer)
+            _status = value
+        End Set
+    End Property
+
     Public Sub Guarda_Presupuesto()
         Dim gQue As String
 
         Try
-            gQue = "INSERT INTO zConsPresupuestos(id_obra,nombre_presupuesto,
-                            descripcion)VALUES(@idobra,@nombre,@des) SELECT SCOPE_IDENTITY()"
+            gQue = "INSERT INTO zConsPresupuestos(id_obra,id_usuario,nombre_presupuesto,
+                            descripcion,estatus)VALUES(@idobra,@idusuario,@nombre,@des,
+                            @status) SELECT SCOPE_IDENTITY()"
             Using gCom = New SqlCommand(gQue, DConexiones("CON"))
                 gCom.Parameters.AddWithValue("idobra", _idobra)
+                gCom.Parameters.AddWithValue("idusuario", _idusuario)
                 gCom.Parameters.AddWithValue("nombre", _nombrepresupuesto)
                 gCom.Parameters.AddWithValue("des", _descripcion)
+                gCom.Parameters.AddWithValue("status", _status)
                 _id = Convert.ToInt32(gCom.ExecuteScalar())
             End Using
         Catch ex As Exception
@@ -64,11 +88,12 @@ Public Class clPresupuesto
 
         Try
             gQue = "UPDATE zConsPresupuestos SET nombre_presupuesto=@nombre,
-                            descripcion=@des WHERE id=@id"
+                            descripcion=@des,id_usuario=@idusuario WHERE id=@id"
             Using gCom = New SqlCommand(gQue, DConexiones("CON"))
                 gCom.Parameters.AddWithValue("id", _id)
                 gCom.Parameters.AddWithValue("nombre", _nombrepresupuesto)
                 gCom.Parameters.AddWithValue("des", _descripcion)
+                gCom.Parameters.AddWithValue("idusuario", _idusuario)
                 gCom.ExecuteNonQuery()
             End Using
         Catch ex As Exception
@@ -80,7 +105,8 @@ Public Class clPresupuesto
         Dim presupuesto As clPresupuesto, colPre As New Collection
         Dim gQue As String
 
-        gQue = "SELECT  id,nombre_presupuesto,descripcion FROM zConsPresupuestos WHERE id_obra=" & _idobra & ""
+        gQue = "SELECT  id,nombre_presupuesto,descripcion FROM zConsPresupuestos 
+                            WHERE id_obra=" & _idobra & " and estatus=" & _status & ""
         Using gCom = New SqlCommand(gQue, DConexiones("CON"))
             Using gCr = gCom.ExecuteReader
                 Do While gCr.Read
@@ -111,15 +137,20 @@ Public Class clPresupuesto
     Public Sub Elimina_Presupuesto()
         Dim dQue As String
 
-        dQue = "DELETE FROM zConsPresupuestos WHERE id=" & _id & ""
+        dQue = "UPDATE zConsPresupuestos estatus=0 WHERE id=" & _id & " and id_usuario=" & _idusuario & ""
         Using dCom = New SqlCommand(dQue, DConexiones("CON"))
             dCom.ExecuteNonQuery()
         End Using
 
-        dQue = "DELETE FROM  zConsPresupuestos_Doc WHERE  id_presupuesto=" & _id & ""
-        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
-            dCom.ExecuteNonQuery()
-        End Using
+        'dQue = "DELETE FROM zConsPresupuestos WHERE id=" & _id & ""
+        'Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+        '    dCom.ExecuteNonQuery()
+        'End Using
+
+        'dQue = "DELETE FROM  zConsPresupuestos_Doc WHERE  id_presupuesto=" & _id & ""
+        'Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+        '    dCom.ExecuteNonQuery()
+        'End Using
     End Sub
 
     Public Sub Get_Presupuesto()

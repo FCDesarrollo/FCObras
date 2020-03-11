@@ -13,6 +13,8 @@
     <MyType>WindowsForms</MyType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,6 +25,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>FCConstruccion.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +36,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>FCConstruccion.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <OptionExplicit>On</OptionExplicit>
@@ -46,18 +50,47 @@
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>FCConstruccion.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>FCConstruccion.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="eCryptography, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Eramake.eCryptography.1.1.6\lib\net45\eCryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.3, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.3\lib\net40\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -80,14 +113,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clases\clCuenta.vb" />
+    <Compile Include="Clases\clDocumento.vb" />
     <Compile Include="Clases\clEmpresa.vb" />
     <Compile Include="Clases\clModulos.vb" />
+    <Compile Include="Clases\clMovimiento.vb" />
     <Compile Include="Clases\clObra.vb" />
     <Compile Include="Clases\clParametros.vb" />
     <Compile Include="Clases\clPlanCrono.vb" />
     <Compile Include="Clases\clPresupuesto.vb" />
     <Compile Include="Clases\clSucursal.vb" />
     <Compile Include="Clases\clUsuario.vb" />
+    <Compile Include="Formularios\frmAgrega.Designer.vb">
+      <DependentUpon>frmAgrega.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmAgrega.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmAgregaCat.Designer.vb">
+      <DependentUpon>frmAgregaCat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmAgregaCat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmAsocProductos.Designer.vb">
+      <DependentUpon>frmAsocProductos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmAsocProductos.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Formularios\frmAvanceCuentas.Designer.vb">
       <DependentUpon>frmAvanceCuentas.vb</DependentUpon>
     </Compile>
@@ -100,16 +153,34 @@
     <Compile Include="Formularios\frmBuscaCuenta.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Formularios\frmCantidadInsumos.Designer.vb">
+      <DependentUpon>frmCantidadInsumos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmCantidadInsumos.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Formularios\frmClasificacion.Designer.vb">
       <DependentUpon>frmClasificacion.vb</DependentUpon>
     </Compile>
     <Compile Include="Formularios\frmClasificacion.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Formularios\frmConceptos.Designer.vb">
+      <DependentUpon>frmConceptos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmConceptos.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Formularios\frmConfig.Designer.vb">
       <DependentUpon>frmConfig.vb</DependentUpon>
     </Compile>
     <Compile Include="Formularios\frmConfig.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\frmInsumos.Designer.vb">
+      <DependentUpon>frmInsumos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\frmInsumos.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Formularios\frmOrden.Designer.vb">
@@ -185,9 +256,15 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Modulos\GeneralFC.vb" />
+    <Compile Include="Modulos\modConstrucion.vb" />
     <Compile Include="Modulos\modFC_Premium.vb" />
-    <Compile Include="Modulos\modFuncionesGlobales.vb" />
+    <Compile Include="Modulos\modFuncionesGlobalesConst.vb" />
+    <Compile Include="Modulos\modFuncionesSDK.vb" />
+    <Compile Include="Modulos\modGeneraDocumentosADW.vb" />
     <Compile Include="Modulos\modGlobales.vb" />
+    <Compile Include="Modulos\modNumeros.vb" />
+    <Compile Include="Modulos\SDK_ADMW.vb" />
+    <Compile Include="Modulos\SDK_Comercial.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -205,17 +282,35 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Formularios\frmAgrega.resx">
+      <DependentUpon>frmAgrega.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmAgregaCat.resx">
+      <DependentUpon>frmAgregaCat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmAsocProductos.resx">
+      <DependentUpon>frmAsocProductos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmAvanceCuentas.resx">
       <DependentUpon>frmAvanceCuentas.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmBuscaCuenta.resx">
       <DependentUpon>frmBuscaCuenta.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmCantidadInsumos.resx">
+      <DependentUpon>frmCantidadInsumos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmClasificacion.resx">
       <DependentUpon>frmClasificacion.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmConceptos.resx">
+      <DependentUpon>frmConceptos.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmConfig.resx">
       <DependentUpon>frmConfig.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\frmInsumos.resx">
+      <DependentUpon>frmInsumos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\frmOrden.resx">
       <DependentUpon>frmOrden.vb</DependentUpon>

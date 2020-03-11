@@ -9,6 +9,9 @@ Public Class frmObras
     Private D_RFC As String
     Private D_IDSucursal As Integer
     Private D_Obra As clObra
+    Private D_UsaComercial As Boolean
+    Private D_RutaDoc As String
+
     Private Sub FrmObras_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         D_Empresas = New Collection
         D_Load = True
@@ -112,8 +115,64 @@ Public Class frmObras
         If D_IDSucursal > 0 Then
             D_Obra.Idsucursal = D_IDSucursal
             D_ObrasAll = D_Obra.Carga_Obras
+            Cambio_Sucursal()
         End If
         Llena_GridObras()
+    End Sub
+
+    Private Sub Cambio_Sucursal()
+        Dim empresa As clEmpresa, sucursal As clSucursal
+        For Each empresa In D_Empresas
+            If empresa.Idempresa = D_IDEmpresa Then
+                For Each sucursal In empresa.ColSucursales
+                    If sucursal.Idsucursal = D_IDSucursal Then
+                        D_UsaComercial = IIf(sucursal.Usacomercial = 1, True, False)
+
+
+                        If D_UsaComercial = False Then
+                            D_RutaDoc = sucursal.BddAdw
+                            FC_ConexionFOX(sucursal.BddAdw)
+                            Carga_Conceptos()
+                            Carga_Almacenes()
+                        Else
+                            ''PENDIENTE
+                        End If
+                        Exit For
+                    End If
+                Next sucursal
+                Exit For
+            End If
+        Next empresa
+    End Sub
+
+    Private Sub Carga_Almacenes()
+        Dim fQue As String, dt As New DataTable
+
+        fQue = "SELECT CIDALMACEN,CNOMBREA01 FROM MGW10003"
+        Using cCom = New Odbc.OdbcDataAdapter(fQue, FC_CONFOX)
+            cCom.Fill(dt)
+        End Using
+
+        cbAlmacen.DataSource = dt
+        cbAlmacen.DisplayMember = "CNOMBREA01"
+        cbAlmacen.ValueMember = "CIDALMACEN"
+    End Sub
+
+    Private Sub Carga_Conceptos()
+        Dim fQue As String, dt As New DataTable
+        Dim row As DataRow = dt.NewRow()
+
+        fQue = "SELECT CIDCONCE01,CNOMBREC01 FROM MGW10006"
+        Using cCom = New Odbc.OdbcDataAdapter(fQue, FC_CONFOX)
+            cCom.Fill(dt)
+        End Using
+        row("CIDCONCE01") = 0
+        row("CNOMBREC01") = "Seleccione Concepto"
+        dt.Rows.Add(row)
+        cbConcepto.DataSource = dt
+        cbConcepto.DisplayMember = "CNOMBREC01"
+        cbConcepto.ValueMember = "CIDCONCE01"
+        cbConcepto.SelectedValue = 0
     End Sub
 
     Private Sub Llena_GridObras()
@@ -133,18 +192,30 @@ Public Class frmObras
             D_Obra.Fechafin = Format(dtFechaF.Value, Formato_FechaYear)
             D_Obra.Descripcion = txtdes.Text
             D_Obra.Estatus = cbEstatus.SelectedValue
+            D_Obra.Idalmacen = cbAlmacen.SelectedValue
+            D_Obra.Idconcepto = cbConcepto.SelectedValue
+
             If D_Obra.Id = 0 Then
                 D_Obra.Guarda_Obra()
                 If D_Obra.Id <> 0 Then
                     AgregaDefault_Presupuesto()
                     AgregaDefault_PlanCrono()
-                    D_ObrasAll.Add(D_Obra)
-                    muestra_Presupuestos()
-                    muestra_Planes()
+                    'D_ObrasAll.Add(D_Obra)
+                    D_ObrasAll = New Collection
+                    D_Obra.Idsucursal = D_IDSucursal
+                    D_ObrasAll = D_Obra.Carga_Obras
+                    Llena_GridObras()
+                    'muestra_Presupuestos()
+                    'muestra_Planes()
                 End If
             Else
-                ''FALTA POR EDITAR
+                D_Obra.Edita_Obra()
+                D_ObrasAll = New Collection
+                D_Obra.Idsucursal = D_IDSucursal
+                D_ObrasAll = D_Obra.Carga_Obras
+                Llena_GridObras()
             End If
+            MsgBox("Obra guardada correctamente.", vbInformation, "Información")
             Bloque_Botones()
             Llena_GridObras()
         End If
@@ -165,6 +236,14 @@ Public Class frmObras
             MsgBox("Escribir una descripción de la obra.", vbExclamation, "Validación")
             txtdes.Select()
             vRes = False
+        ElseIf cbAlmacen.SelectedValue = 0 Then
+            MsgBox("No ha seleccionado el Almacen.", vbExclamation, "Validación")
+            txtdes.Select()
+            vRes = False
+            'ElseIf cbConcepto.SelectedValue = 0 Then
+            '    MsgBox("No ha seleccionado el Almacen.", vbExclamation, "Validación")
+            '    txtdes.Select()
+            '    vRes = False
         End If
 
         Return vRes
@@ -191,6 +270,8 @@ Public Class frmObras
                 D_Obra.Fechafin = obra.Fechafin
                 D_Obra.Descripcion = obra.Descripcion
                 D_Obra.Estatus = obra.Estatus
+                D_Obra.Idconcepto = obra.Idconcepto
+                D_Obra.Idalmacen = obra.Idalmacen
                 Exit For
             End If
         Next
@@ -200,8 +281,11 @@ Public Class frmObras
         dtFechaI.Value = D_Obra.Fechaini
         dtFechaF.Value = D_Obra.Fechafin
         txtdes.Text = D_Obra.Descripcion
+        cbAlmacen.SelectedValue = D_Obra.Idalmacen
+        cbConcepto.SelectedValue = D_Obra.Idconcepto
 
         presupuesto.Idobra = D_Obra.Id
+        presupuesto.Status = 1
         D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
         muestra_Presupuestos()
 
@@ -219,8 +303,10 @@ Public Class frmObras
         Dim presupuesto As New clPresupuesto
 
         presupuesto.Idobra = D_Obra.Id
-        presupuesto.Nombrepresupuesto = "DEFAULT PRESUPUESTO"
-        presupuesto.Descripcion = "Presupuesto 1"
+        presupuesto.Idusuario = GL_cUsuario.Iduser
+        presupuesto.Nombrepresupuesto = "PRESUPUESTO BASE"
+        presupuesto.Descripcion = "Presupuesto base"
+        presupuesto.Status = 1
         presupuesto.Guarda_Presupuesto()
         If presupuesto.Id <> 0 Then
             D_Obra.ColPresupuestos.Add(presupuesto)
@@ -334,6 +420,7 @@ Public Class frmObras
             frm.ShowDialog()
             frm.Dispose()
             presupuesto.Idobra = D_Obra.Id
+            presupuesto.Status = 1
             D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
             muestra_Presupuestos()
         End If
@@ -347,6 +434,7 @@ Public Class frmObras
                           dgPresupuesto.Item(1, dgPresupuesto.CurrentRow.Index).Value &
                           vbCrLf & "¿Desea Continuar?", vbYesNoCancel, "Validación") = vbYes Then
                     presupuesto.Id = dgPresupuesto.Item(0, dgPresupuesto.CurrentRow.Index).Value
+                    presupuesto.Idusuario = GL_cUsuario.Iduser
                     presupuesto.Elimina_Presupuesto()
                     presupuesto.Idobra = D_Obra.Id
                     D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
@@ -370,6 +458,7 @@ Public Class frmObras
                 frm.ShowDialog()
                 frm.Dispose()
                 presupuesto.Idobra = D_Obra.Id
+                presupuesto.Status = 1
                 D_Obra.ColPresupuestos = presupuesto.Carga_Presupuestos()
                 muestra_Presupuestos()
             End If
@@ -391,4 +480,6 @@ Public Class frmObras
         '    End If
         'Next gObra
     End Sub
+
+
 End Class

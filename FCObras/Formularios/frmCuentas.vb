@@ -4,7 +4,9 @@ Imports System.IO
 Public Class frmCuentas
     Private dtCuentas As DataTable
     Private dDicCuentas As Dictionary(Of String, String)
+    Private dDicPresupuestos As Dictionary(Of Integer, String)
     Private aExisteNode As Boolean
+    Private aGuardo As Boolean
 
     Private D_Cuenta As clCuenta
 
@@ -41,9 +43,11 @@ Public Class frmCuentas
 
     Private Sub FrmCuentas_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         FC_Conexion()
+        aGuardo = False
         Carga_Unidades()
         Carga_TiposInsumos()
         Carga_Clasificaciones()
+        Carga_presupuestos()
         Carga_Arbol()
         lbEmpresa.Text = "Nombre de Empresa: " & _d_nombreempresa
         lbObra.Text = "Nombre de Obra: " & _d_nombreobra
@@ -64,8 +68,8 @@ Public Class frmCuentas
         dr(1) = "SIN UNIDAD"
         dt.Rows.Add(dr)
 
-        dQue = "SELECT id,clave_unidad FROM ConsUnidades"
-        Using dCom = New SqlCommand(dQue, FC_Con)
+        dQue = "SELECT id,clave_unidad FROM zConsUnidades"
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
             Using dCr = dCom.ExecuteReader
                 Do While dCr.Read
                     dr = dt.NewRow
@@ -165,8 +169,8 @@ Public Class frmCuentas
         dr(1) = "SIN INSUMO"
         dt.Rows.Add(dr)
 
-        dQue = "SELECT id,codigo_insumo FROM ConsInsumos"
-        Using dCom = New SqlCommand(dQue, FC_Con)
+        dQue = "SELECT id,codigo_insumo FROM zConsInsumos"
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
             Using dCr = dCom.ExecuteReader
                 Do While dCr.Read
                     dr = dt.NewRow
@@ -183,6 +187,20 @@ Public Class frmCuentas
 
     End Sub
 
+
+    Private Sub Carga_presupuestos()
+        Dim dQue As String
+
+        dDicPresupuestos = New Dictionary(Of Integer, String)
+        dQue = "SELECT id,nombre_presupuesto FROM zConsPresupuestos WHERE id_obra=" & _d_idobra & ""
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            Using dCr = dCom.ExecuteReader
+                Do While dCr.Read
+                    dDicPresupuestos.Add(dCr("id"), dCr("nombre_presupuesto"))
+                Loop
+            End Using
+        End Using
+    End Sub
 
     Private Sub Carga_Arbol()
         Dim cuenta As New clCuenta
@@ -279,15 +297,15 @@ Public Class frmCuentas
         Dim abrir As New OpenFileDialog
 
         Dim frm As New frmAvanceCuentas
-        If Get_numAsoc(1) = 0 Then
+        If Get_numAsoc(_d_idobra) = 0 Then
             MsgBox("Si las cuentas no tienen presupuesto se le agregara el presupuesto default.", vbInformation, "Información")
-            idPre = Get_IDPresupuesto(1)
+            idPre = Get_IDPresupuesto(_d_idobra)
         Else
             MsgBox("El Layout de cuentas debe tener el presupuesto")
         End If
         abrir.Multiselect = False
         abrir.InitialDirectory = rutaDefault
-        abrir.Filter = "Archivos Excel|*.xlsx"
+        abrir.Filter = "Archivos Excel|*.xlsx;*.xlsm"
 
         abrir.ShowDialog(Owner)
         If abrir.FileName <> "" Then
@@ -301,36 +319,64 @@ Public Class frmCuentas
     End Sub
 
     Private Sub BtnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
-        'If Valida_Cuenta() = True Then
-        '    'D_Cuenta = New clCuenta
-        '    'D_Cuenta.Idobra = _d_idobra
-        '    'D_Cuenta.Codigo = txtCuenta.Text
-        '    'D_Cuenta.Nombrecuenta = txtnombrecuenta.Text
-        '    'D_Cuenta.Fechaini = dtFechaI.Value
-        '    'D_Cuenta.Fechafin = dtFechaF.Value
-        '    'D_Cuenta.Codigoadw = txtCuenta.Text
-        '    'D_Cuenta.Clasificacion1 = cbclas1.ValueMember
-        '    'D_Cuenta.Clasificacion2 = cbclas2.ValueMember
-        '    'D_Cuenta.Clasificacion3 = cbclas3.ValueMember
-        '    'D_Cuenta.Tipo = IIf(ckTipo.Checked, 1, 0)
-        '    'D_Cuenta.Idinsumo = cbNombreTipo.ValueMember
-        '    'D_Cuenta.Guarda_cuenta()
-        '    'If D_Cuenta.Id <> 0 Then
 
-        '    'End If
-        'End If
+        If dgPrecios.Rows.Count = 0 And txtCuenta.Text <> "" Then
+            MsgBox("Debe agregar por lo menos un precio a la cuenta.", vbExclamation, "Validación")
+        Else
+            D_Cuenta.Fechaini = dtFechaI.Value
+            D_Cuenta.Fechafin = dtFechaF.Value
+            D_Cuenta.Nombrecuenta = txtnombrecuenta.Text
+            D_Cuenta.Clasificacion1 = cbclas1.SelectedValue
+            D_Cuenta.Clasificacion2 = cbclas2.SelectedValue
+            D_Cuenta.Clasificacion3 = cbclas3.SelectedValue
+            D_Cuenta.Tipo = IIf(ckTipo.Checked, 1, 0)
+            D_Cuenta.Idinsumo = cbNombreTipo.SelectedValue
+            D_Cuenta.Actualiza_Cuenta()
+            tvCuentas.Nodes.Clear()
+            Carga_Arbol()
+            Limpiar_Cuenta()
+        End If
     End Sub
 
+    Private Sub Elimina_Sinprecio()
+        If D_Cuenta.Id <> 0 Then
+            D_Cuenta.EliminaSin_Precio()
+        End If
+    End Sub
 
+    Private Sub Guarda_Empresa()
+        If Valida_CuentaNew() = True Then
+            D_Cuenta.Idobra = _d_idobra
+            D_Cuenta.Codigo = txtCuenta.Text
+            D_Cuenta.Nombrecuenta = txtnombrecuenta.Text
+            D_Cuenta.Fechaini = dtFechaI.Value
+            D_Cuenta.Fechafin = dtFechaF.Value
+            D_Cuenta.Codigoadw = txtCuenta.Text
+            D_Cuenta.Clasificacion1 = cbclas1.SelectedValue
+            D_Cuenta.Clasificacion2 = cbclas2.SelectedValue
+            D_Cuenta.Clasificacion3 = cbclas3.SelectedValue
+            D_Cuenta.Tipo = IIf(ckTipo.Checked, 1, 0)
+            D_Cuenta.Idinsumo = cbNombreTipo.SelectedValue
+            D_Cuenta.Guarda_cuenta()
+            txtCuenta.Enabled = False
+            btnbusCuen.Enabled = False
+        End If
+    End Sub
 
     Private Sub tvCuentas_DoubleClick(sender As Object, e As EventArgs) Handles tvCuentas.DoubleClick
-        Dim dt As New DataTable
+        If aGuardo = False And D_Cuenta.Id <> 0 Then
+            Elimina_Sinprecio()
+        End If
+        aGuardo = True
+        btnEliminar.Enabled = True
         D_Cuenta = New clCuenta
         D_Cuenta.Idobra = D_idobra
         D_Cuenta.Id = tvCuentas.SelectedNode.Name
         D_Cuenta.Idcuentapadre = tvCuentas.SelectedNode.Tag
         If D_Cuenta.Get_Cuenta = True Then
             txtCuenta.Text = D_Cuenta.Codigo
+            txtCuenta.Enabled = False
+            btnbusCuen.Enabled = False
             txtnombrecuenta.Text = D_Cuenta.Nombrecuenta
             dtFechaI.Value = D_Cuenta.Fechaini
             dtFechaF.Value = D_Cuenta.Fechafin
@@ -341,16 +387,26 @@ Public Class frmCuentas
             cbclas1.SelectedValue = D_Cuenta.Clasificacion1
             cbclas2.SelectedValue = D_Cuenta.Clasificacion2
             cbclas3.SelectedValue = D_Cuenta.Clasificacion3
-            dt = D_Cuenta.Get_Precios()
-            dgPrecios.Rows.Clear()
-
-            For Each row As DataRow In dt.Rows
-                dgPrecios.Rows.Add(row("id"), row("id_presupuesto"), Format(row("fecha"), Formato_FechaMonth),
-                                   row("cantidad"), row("precio"), row("importe"))
-            Next
+            LlenaGrid_Precios()
         Else
             MsgBox("No se encontro la cuenta", vbInformation, "Validación")
         End If
+    End Sub
+
+    Private Sub LlenaGrid_Precios()
+        Dim dt As New DataTable, nomPresupuesto As String
+        dt = D_Cuenta.Get_Precios()
+        dgPrecios.Rows.Clear()
+
+        For Each row As DataRow In dt.Rows
+            If row("id_presupuesto") <> 0 Then
+                nomPresupuesto = dDicPresupuestos.Item(row("id_presupuesto"))
+            Else
+                nomPresupuesto = "N/P"
+            End If
+            dgPrecios.Rows.Add(row("id"), row("id_presupuesto"), Format(row("fecha"), Formato_FechaMonth),
+                               row("cantidad"), row("precio"), row("importe"), nomPresupuesto)
+        Next
     End Sub
 
     Private Sub BtnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
@@ -360,10 +416,11 @@ Public Class frmCuentas
     Private Sub BtnbusCuen_Click(sender As Object, e As EventArgs) Handles btnbusCuen.Click
         Dim frm As New frmBuscaCuenta
         frm.D_tipollamada = 1
+        frm.D_filtro = ""
         frm.D_idobra = D_idobra
         frm.ShowDialog()
         If frm.Regcuenta.Id <> 0 Then
-            D_Cuenta.Id = frm.Regcuenta.Id
+            'D_Cuenta.Id = frm.Regcuenta.Id
             txtCuenta.Text = frm.Regcuenta.Codigo
             txtnombrecuenta.Text = frm.Regcuenta.Nombrecuenta
             dtFechaI.Value = frm.Regcuenta.Fechaini
@@ -381,16 +438,17 @@ Public Class frmCuentas
         Dim frm As New frmBuscaCuenta
         frm.D_tipollamada = 2
         frm.D_idobra = D_idobra
-        frm.D_idcuentafiltro = D_Cuenta.Id
+        frm.D_filtro = "AND tipoinsumo=0"
         frm.ShowDialog()
         If frm.Regcuenta.Id <> 0 Then
-            txtCuenta.Text = frm.Regcuenta.Codigo
-            txtnombrecuenta.Text = frm.Regcuenta.Nombrecuenta
+            txtSubCuenta.Text = frm.Regcuenta.Codigo
+            'txtnombrecuenta.Text = frm.Regcuenta.Nombrecuenta
         End If
         frm = Nothing
     End Sub
 
     Private Sub Limpiar_Cuenta()
+        aGuardo = False
         D_Cuenta = New clCuenta
         txtCuenta.Text = ""
         txtnombrecuenta.Text = ""
@@ -405,17 +463,75 @@ Public Class frmCuentas
         cbclas3.SelectedValue = 0
         dgPrecios.Rows.Clear()
         dgFechas.Rows.Clear()
+        txtCuenta.Enabled = True
+        btnbusCuen.Enabled = True
+        btnEliminar.Enabled = False
     End Sub
 
     Private Sub BtnNuevo_Click(sender As Object, e As EventArgs) Handles btnNuevo.Click
+        If aGuardo = False Then
+            Elimina_Sinprecio()
+        End If
         Limpiar_Cuenta()
     End Sub
 
-    Private Sub Valida_Cuenta()
-        If D_Cuenta.Id = 0 Then
-            If dDicCuentas.ContainsKey(txtCuenta.Text) Then
-                MsgBox("La cuenta ya existe")
+    Private Function Valida_CuentaNew() As Boolean
+        Dim key As String
+        Valida_CuentaNew = True
+        key = txtCuenta.Text
+        If dDicCuentas.ContainsKey(key) = True Then
+            MsgBox("La cuenta ya existe.", vbExclamation, "Validación")
+            Valida_CuentaNew = False
+            Exit Function
+        End If
+        If dtFechaI.Value.Date > dtFechaF.Value.Date Then
+            MsgBox("La fecha inicial es mayor a la final", vbExclamation, "Validación")
+            Valida_CuentaNew = False
+            Exit Function
+        End If
+        key = txtSubCuenta.Text
+        If key <> "" Then
+            If dDicCuentas.ContainsKey(key) = False Then
+                MsgBox("La Subcuenta de, no existe", vbExclamation, "Validación")
+                Valida_CuentaNew = False
+                Exit Function
+            Else
+                D_Cuenta.Idcuentapadre = D_Cuenta.Get_idCuenta(key)
+                D_Cuenta.Codigocuentapadre = key
             End If
+        End If
+        If ckTipo.Checked = True Then
+            If cbNombreTipo.SelectedValue = 0 Then
+                MsgBox("La cuenta es de tipo insumo seleccione el tipo de insumo", vbExclamation, "Validación")
+                Valida_CuentaNew = False
+                Exit Function
+            End If
+        End If
+        If cbUnidad.SelectedValue = 0 Then
+            MsgBox("Seleccione la unidad de medida", vbExclamation, "Validación")
+            Valida_CuentaNew = False
+            Exit Function
+        End If
+    End Function
+
+
+    Private Sub btnADDPrecio_Click(sender As Object, e As EventArgs) Handles btnADDPrecio.Click
+        Dim frm As New frmprecio
+        If D_Cuenta.Id = 0 And txtnombrecuenta.Text <> "" Then
+            Guarda_Empresa()
+        End If
+
+        If D_Cuenta.Id <> 0 Then
+            frm.DicPresupuestos = dDicPresupuestos
+            frm.PreCuent = D_Cuenta
+            frm.ShowDialog()
+
+            'If dgPrecios.Rows.Count = 0 Then
+            '    tvCuentas.Nodes.Clear()
+            '    Carga_Arbol()
+            'End If
+
+            LlenaGrid_Precios()
         End If
     End Sub
 

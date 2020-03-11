@@ -7,8 +7,8 @@ Public Class frmEmpresasCont
 
     Private Sub Carga_EmpresasContpaq()
         Dim cQue As String
-        fError = FC_Conexion()
-        If fError <> 0 Then Exit Sub
+        fCError = FC_Conexion()
+        If fCError <> 0 Then Exit Sub
         If IsNothing(DConexiones) Then FC_GetCons()
         DConexiones("CON").ChangeDatabase("GeneralesSQL")
         dgEmpresas.Rows.Clear()

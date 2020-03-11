@@ -24,6 +24,21 @@ Partial Class frmConfig
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.tabParam = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.dgInsumos = New System.Windows.Forms.DataGridView()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.btnDelUnidad = New System.Windows.Forms.Button()
+        Me.btnAddUnidad = New System.Windows.Forms.Button()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.dgUnidades = New System.Windows.Forms.DataGridView()
+        Me.uniid = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.unicodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.uninombre = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.btnActiva = New System.Windows.Forms.Button()
         Me.txtRazon = New System.Windows.Forms.TextBox()
         Me.txtRfc = New System.Windows.Forms.TextBox()
@@ -62,31 +77,48 @@ Partial Class frmConfig
         Me.empnom = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.empbdd = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.empnum = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.tooltip = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.dgPlanes = New System.Windows.Forms.DataGridView()
-        Me.uniid = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.unicodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.uninombre = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.btnDelUnidad = New System.Windows.Forms.Button()
-        Me.btnAddUnidad = New System.Windows.Forms.Button()
         Me.TabConfigEmpresa = New System.Windows.Forms.TabPage()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.cbtipo = New System.Windows.Forms.ComboBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.btDelCon = New System.Windows.Forms.Button()
+        Me.btAddCon = New System.Windows.Forms.Button()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.dglisConceptos = New System.Windows.Forms.DataGridView()
+        Me.dgconidsuc = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.contipo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.conid = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.dgconsucursal = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.dgconcodigo = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.dgconnombre = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.cbsucursales = New System.Windows.Forms.ComboBox()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.cbempresas = New System.Windows.Forms.ComboBox()
+        Me.tooltip = New System.Windows.Forms.ToolTip(Me.components)
         Me.tabParam.SuspendLayout()
+        CType(Me.dgInsumos, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgUnidades, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabGen.SuspendLayout()
         Me.mpConfig.SuspendLayout()
         Me.tabEmpresas.SuspendLayout()
         CType(Me.dgEmpresas, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dgPlanes, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabConfigEmpresa.SuspendLayout()
+        CType(Me.dglisConceptos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'tabParam
         '
         Me.tabParam.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.tabParam.Controls.Add(Me.Button1)
+        Me.tabParam.Controls.Add(Me.Button2)
+        Me.tabParam.Controls.Add(Me.Label20)
+        Me.tabParam.Controls.Add(Me.dgInsumos)
         Me.tabParam.Controls.Add(Me.btnDelUnidad)
         Me.tabParam.Controls.Add(Me.btnAddUnidad)
         Me.tabParam.Controls.Add(Me.Label9)
-        Me.tabParam.Controls.Add(Me.dgPlanes)
+        Me.tabParam.Controls.Add(Me.dgUnidades)
         Me.tabParam.Controls.Add(Me.Label8)
         Me.tabParam.Controls.Add(Me.btnActiva)
         Me.tabParam.Controls.Add(Me.txtRazon)
@@ -102,6 +134,150 @@ Partial Class frmConfig
         Me.tabParam.Size = New System.Drawing.Size(544, 360)
         Me.tabParam.TabIndex = 1
         Me.tabParam.Text = "Parametros"
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.Red
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.Location = New System.Drawing.Point(480, 164)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(31, 28)
+        Me.Button1.TabIndex = 40
+        Me.Button1.Text = "-"
+        Me.Button1.UseVisualStyleBackColor = False
+        '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.Blue
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.Location = New System.Drawing.Point(443, 164)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(31, 28)
+        Me.Button2.TabIndex = 39
+        Me.Button2.Text = "+"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(264, 175)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(97, 13)
+        Me.Label20.TabIndex = 38
+        Me.Label20.Text = "Insumos Generales"
+        '
+        'dgInsumos
+        '
+        Me.dgInsumos.AllowUserToAddRows = False
+        Me.dgInsumos.AllowUserToDeleteRows = False
+        Me.dgInsumos.AllowUserToResizeRows = False
+        Me.dgInsumos.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
+        Me.dgInsumos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        Me.dgInsumos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3})
+        Me.dgInsumos.GridColor = System.Drawing.SystemColors.ControlLightLight
+        Me.dgInsumos.Location = New System.Drawing.Point(264, 192)
+        Me.dgInsumos.MultiSelect = False
+        Me.dgInsumos.Name = "dgInsumos"
+        Me.dgInsumos.RowHeadersVisible = False
+        Me.dgInsumos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgInsumos.Size = New System.Drawing.Size(247, 160)
+        Me.dgInsumos.TabIndex = 37
+        '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.HeaderText = "id"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.Visible = False
+        '
+        'DataGridViewTextBoxColumn2
+        '
+        Me.DataGridViewTextBoxColumn2.HeaderText = "Codigo"
+        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
+        Me.DataGridViewTextBoxColumn2.ReadOnly = True
+        Me.DataGridViewTextBoxColumn2.Width = 80
+        '
+        'DataGridViewTextBoxColumn3
+        '
+        Me.DataGridViewTextBoxColumn3.HeaderText = "Nombre"
+        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
+        Me.DataGridViewTextBoxColumn3.ReadOnly = True
+        Me.DataGridViewTextBoxColumn3.Width = 160
+        '
+        'btnDelUnidad
+        '
+        Me.btnDelUnidad.BackColor = System.Drawing.Color.Red
+        Me.btnDelUnidad.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelUnidad.Location = New System.Drawing.Point(227, 164)
+        Me.btnDelUnidad.Name = "btnDelUnidad"
+        Me.btnDelUnidad.Size = New System.Drawing.Size(31, 28)
+        Me.btnDelUnidad.TabIndex = 36
+        Me.btnDelUnidad.Text = "-"
+        Me.btnDelUnidad.UseVisualStyleBackColor = False
+        '
+        'btnAddUnidad
+        '
+        Me.btnAddUnidad.BackColor = System.Drawing.Color.Blue
+        Me.btnAddUnidad.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddUnidad.Location = New System.Drawing.Point(190, 164)
+        Me.btnAddUnidad.Name = "btnAddUnidad"
+        Me.btnAddUnidad.Size = New System.Drawing.Size(31, 28)
+        Me.btnAddUnidad.TabIndex = 35
+        Me.btnAddUnidad.Text = "+"
+        Me.btnAddUnidad.UseVisualStyleBackColor = False
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(11, 175)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(156, 13)
+        Me.Label9.TabIndex = 34
+        Me.Label9.Text = "Unidades de Medida Generales"
+        '
+        'dgUnidades
+        '
+        Me.dgUnidades.AllowUserToAddRows = False
+        Me.dgUnidades.AllowUserToDeleteRows = False
+        Me.dgUnidades.AllowUserToResizeRows = False
+        Me.dgUnidades.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
+        Me.dgUnidades.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        Me.dgUnidades.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.uniid, Me.unicodigo, Me.uninombre})
+        Me.dgUnidades.GridColor = System.Drawing.SystemColors.ControlLightLight
+        Me.dgUnidades.Location = New System.Drawing.Point(11, 192)
+        Me.dgUnidades.MultiSelect = False
+        Me.dgUnidades.Name = "dgUnidades"
+        Me.dgUnidades.RowHeadersVisible = False
+        Me.dgUnidades.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgUnidades.Size = New System.Drawing.Size(247, 160)
+        Me.dgUnidades.TabIndex = 33
+        '
+        'uniid
+        '
+        Me.uniid.HeaderText = "id"
+        Me.uniid.Name = "uniid"
+        Me.uniid.Visible = False
+        '
+        'unicodigo
+        '
+        Me.unicodigo.HeaderText = "Codigo"
+        Me.unicodigo.Name = "unicodigo"
+        Me.unicodigo.ReadOnly = True
+        Me.unicodigo.Width = 80
+        '
+        'uninombre
+        '
+        Me.uninombre.HeaderText = "Nombre"
+        Me.uninombre.Name = "uninombre"
+        Me.uninombre.ReadOnly = True
+        Me.uninombre.Width = 160
+        '
+        'Label8
+        '
+        Me.Label8.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.Label8.Location = New System.Drawing.Point(3, 148)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(538, 10)
+        Me.Label8.TabIndex = 32
         '
         'btnActiva
         '
@@ -463,91 +639,186 @@ Partial Class frmConfig
         Me.empnum.Name = "empnum"
         Me.empnum.ReadOnly = True
         '
-        'Label8
-        '
-        Me.Label8.BackColor = System.Drawing.Color.FromArgb(CType(CType(255, Byte), Integer), CType(CType(255, Byte), Integer), CType(CType(192, Byte), Integer))
-        Me.Label8.Location = New System.Drawing.Point(3, 148)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(538, 10)
-        Me.Label8.TabIndex = 32
-        '
-        'dgPlanes
-        '
-        Me.dgPlanes.AllowUserToAddRows = False
-        Me.dgPlanes.AllowUserToDeleteRows = False
-        Me.dgPlanes.AllowUserToResizeRows = False
-        Me.dgPlanes.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
-        Me.dgPlanes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
-        Me.dgPlanes.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.uniid, Me.unicodigo, Me.uninombre})
-        Me.dgPlanes.GridColor = System.Drawing.SystemColors.ControlLightLight
-        Me.dgPlanes.Location = New System.Drawing.Point(11, 192)
-        Me.dgPlanes.MultiSelect = False
-        Me.dgPlanes.Name = "dgPlanes"
-        Me.dgPlanes.RowHeadersVisible = False
-        Me.dgPlanes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgPlanes.Size = New System.Drawing.Size(247, 160)
-        Me.dgPlanes.TabIndex = 33
-        '
-        'uniid
-        '
-        Me.uniid.HeaderText = "id"
-        Me.uniid.Name = "uniid"
-        Me.uniid.Visible = False
-        '
-        'unicodigo
-        '
-        Me.unicodigo.HeaderText = "Codigo"
-        Me.unicodigo.Name = "unicodigo"
-        Me.unicodigo.ReadOnly = True
-        Me.unicodigo.Width = 80
-        '
-        'uninombre
-        '
-        Me.uninombre.HeaderText = "Nombre"
-        Me.uninombre.Name = "uninombre"
-        Me.uninombre.ReadOnly = True
-        Me.uninombre.Width = 160
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(11, 175)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(105, 13)
-        Me.Label9.TabIndex = 34
-        Me.Label9.Text = "Unidades de Medida"
-        '
-        'btnDelUnidad
-        '
-        Me.btnDelUnidad.BackColor = System.Drawing.Color.Red
-        Me.btnDelUnidad.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelUnidad.Location = New System.Drawing.Point(227, 164)
-        Me.btnDelUnidad.Name = "btnDelUnidad"
-        Me.btnDelUnidad.Size = New System.Drawing.Size(31, 28)
-        Me.btnDelUnidad.TabIndex = 36
-        Me.btnDelUnidad.Text = "-"
-        Me.btnDelUnidad.UseVisualStyleBackColor = False
-        '
-        'btnAddUnidad
-        '
-        Me.btnAddUnidad.BackColor = System.Drawing.Color.Blue
-        Me.btnAddUnidad.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddUnidad.Location = New System.Drawing.Point(190, 164)
-        Me.btnAddUnidad.Name = "btnAddUnidad"
-        Me.btnAddUnidad.Size = New System.Drawing.Size(31, 28)
-        Me.btnAddUnidad.TabIndex = 35
-        Me.btnAddUnidad.Text = "+"
-        Me.btnAddUnidad.UseVisualStyleBackColor = False
-        '
         'TabConfigEmpresa
         '
         Me.TabConfigEmpresa.BackColor = System.Drawing.Color.FromArgb(CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer), CType(CType(224, Byte), Integer))
+        Me.TabConfigEmpresa.Controls.Add(Me.Label22)
+        Me.TabConfigEmpresa.Controls.Add(Me.cbtipo)
+        Me.TabConfigEmpresa.Controls.Add(Me.Label21)
+        Me.TabConfigEmpresa.Controls.Add(Me.Label19)
+        Me.TabConfigEmpresa.Controls.Add(Me.btDelCon)
+        Me.TabConfigEmpresa.Controls.Add(Me.btAddCon)
+        Me.TabConfigEmpresa.Controls.Add(Me.Label16)
+        Me.TabConfigEmpresa.Controls.Add(Me.dglisConceptos)
+        Me.TabConfigEmpresa.Controls.Add(Me.Label10)
+        Me.TabConfigEmpresa.Controls.Add(Me.cbsucursales)
+        Me.TabConfigEmpresa.Controls.Add(Me.Label12)
+        Me.TabConfigEmpresa.Controls.Add(Me.cbempresas)
         Me.TabConfigEmpresa.Location = New System.Drawing.Point(4, 22)
         Me.TabConfigEmpresa.Name = "TabConfigEmpresa"
         Me.TabConfigEmpresa.Padding = New System.Windows.Forms.Padding(3)
         Me.TabConfigEmpresa.Size = New System.Drawing.Size(544, 360)
         Me.TabConfigEmpresa.TabIndex = 3
         Me.TabConfigEmpresa.Text = "Conceptos"
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Location = New System.Drawing.Point(12, 337)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(179, 13)
+        Me.Label22.TabIndex = 52
+        Me.Label22.Text = "Solo un concepto por sucursal y tipo"
+        '
+        'cbtipo
+        '
+        Me.cbtipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbtipo.FormattingEnabled = True
+        Me.cbtipo.Location = New System.Drawing.Point(242, 69)
+        Me.cbtipo.Name = "cbtipo"
+        Me.cbtipo.Size = New System.Drawing.Size(200, 21)
+        Me.cbtipo.TabIndex = 51
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(239, 52)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(31, 13)
+        Me.Label21.TabIndex = 50
+        Me.Label21.Text = "Tipo:"
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(320, 337)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(207, 13)
+        Me.Label19.TabIndex = 49
+        Me.Label19.Text = "Selccione el concepto que desea eliminar."
+        '
+        'btDelCon
+        '
+        Me.btDelCon.BackColor = System.Drawing.Color.Red
+        Me.btDelCon.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btDelCon.Location = New System.Drawing.Point(506, 86)
+        Me.btDelCon.Name = "btDelCon"
+        Me.btDelCon.Size = New System.Drawing.Size(31, 28)
+        Me.btDelCon.TabIndex = 48
+        Me.btDelCon.Text = "-"
+        Me.btDelCon.UseVisualStyleBackColor = False
+        '
+        'btAddCon
+        '
+        Me.btAddCon.BackColor = System.Drawing.Color.Blue
+        Me.btAddCon.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btAddCon.Location = New System.Drawing.Point(469, 86)
+        Me.btAddCon.Name = "btAddCon"
+        Me.btAddCon.Size = New System.Drawing.Size(31, 28)
+        Me.btAddCon.TabIndex = 47
+        Me.btAddCon.Text = "+"
+        Me.btAddCon.UseVisualStyleBackColor = False
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(12, 101)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(218, 13)
+        Me.Label16.TabIndex = 46
+        Me.Label16.Text = "Lista Conceptos Configurados de la Empresa"
+        '
+        'dglisConceptos
+        '
+        Me.dglisConceptos.AllowUserToAddRows = False
+        Me.dglisConceptos.AllowUserToDeleteRows = False
+        Me.dglisConceptos.AllowUserToResizeRows = False
+        Me.dglisConceptos.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
+        Me.dglisConceptos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+        Me.dglisConceptos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.dgconidsuc, Me.contipo, Me.conid, Me.dgconsucursal, Me.dgconcodigo, Me.dgconnombre})
+        Me.dglisConceptos.GridColor = System.Drawing.SystemColors.ControlLightLight
+        Me.dglisConceptos.Location = New System.Drawing.Point(15, 117)
+        Me.dglisConceptos.MultiSelect = False
+        Me.dglisConceptos.Name = "dglisConceptos"
+        Me.dglisConceptos.RowHeadersVisible = False
+        Me.dglisConceptos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dglisConceptos.Size = New System.Drawing.Size(523, 217)
+        Me.dglisConceptos.TabIndex = 45
+        '
+        'dgconidsuc
+        '
+        Me.dgconidsuc.HeaderText = "idsucursal"
+        Me.dgconidsuc.Name = "dgconidsuc"
+        Me.dgconidsuc.Visible = False
+        '
+        'contipo
+        '
+        Me.contipo.HeaderText = "Tipo"
+        Me.contipo.Name = "contipo"
+        Me.contipo.ReadOnly = True
+        '
+        'conid
+        '
+        Me.conid.HeaderText = "idconcepto"
+        Me.conid.Name = "conid"
+        Me.conid.Visible = False
+        '
+        'dgconsucursal
+        '
+        Me.dgconsucursal.HeaderText = "Sucursal"
+        Me.dgconsucursal.Name = "dgconsucursal"
+        Me.dgconsucursal.ReadOnly = True
+        Me.dgconsucursal.Width = 120
+        '
+        'dgconcodigo
+        '
+        Me.dgconcodigo.HeaderText = "Codigo"
+        Me.dgconcodigo.Name = "dgconcodigo"
+        Me.dgconcodigo.ReadOnly = True
+        Me.dgconcodigo.Width = 80
+        '
+        'dgconnombre
+        '
+        Me.dgconnombre.HeaderText = "Nombre Concepto"
+        Me.dgconnombre.Name = "dgconnombre"
+        Me.dgconnombre.ReadOnly = True
+        Me.dgconnombre.Width = 300
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(12, 52)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(51, 13)
+        Me.Label10.TabIndex = 44
+        Me.Label10.Text = "Sucursal:"
+        '
+        'cbsucursales
+        '
+        Me.cbsucursales.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbsucursales.FormattingEnabled = True
+        Me.cbsucursales.Location = New System.Drawing.Point(15, 68)
+        Me.cbsucursales.Name = "cbsucursales"
+        Me.cbsucursales.Size = New System.Drawing.Size(200, 21)
+        Me.cbsucursales.TabIndex = 43
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(12, 12)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(51, 13)
+        Me.Label12.TabIndex = 42
+        Me.Label12.Text = "Empresa:"
+        '
+        'cbempresas
+        '
+        Me.cbempresas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbempresas.FormattingEnabled = True
+        Me.cbempresas.Location = New System.Drawing.Point(15, 28)
+        Me.cbempresas.Name = "cbempresas"
+        Me.cbempresas.Size = New System.Drawing.Size(275, 21)
+        Me.cbempresas.TabIndex = 41
         '
         'frmConfig
         '
@@ -563,13 +834,17 @@ Partial Class frmConfig
         Me.Text = "Configuración"
         Me.tabParam.ResumeLayout(False)
         Me.tabParam.PerformLayout()
+        CType(Me.dgInsumos, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dgUnidades, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabGen.ResumeLayout(False)
         Me.tabGen.PerformLayout()
         Me.mpConfig.ResumeLayout(False)
         Me.tabEmpresas.ResumeLayout(False)
         Me.tabEmpresas.PerformLayout()
         CType(Me.dgEmpresas, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dgPlanes, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabConfigEmpresa.ResumeLayout(False)
+        Me.TabConfigEmpresa.PerformLayout()
+        CType(Me.dglisConceptos, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -616,11 +891,36 @@ Partial Class frmConfig
     Friend WithEvents tooltip As ToolTip
     Friend WithEvents Label8 As Label
     Friend WithEvents Label9 As Label
-    Friend WithEvents dgPlanes As DataGridView
+    Friend WithEvents dgUnidades As DataGridView
     Friend WithEvents uniid As DataGridViewTextBoxColumn
     Friend WithEvents unicodigo As DataGridViewTextBoxColumn
     Friend WithEvents uninombre As DataGridViewTextBoxColumn
     Friend WithEvents btnDelUnidad As Button
     Friend WithEvents btnAddUnidad As Button
     Friend WithEvents TabConfigEmpresa As TabPage
+    Friend WithEvents Label10 As Label
+    Friend WithEvents cbsucursales As ComboBox
+    Friend WithEvents Label12 As Label
+    Friend WithEvents cbempresas As ComboBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents dglisConceptos As DataGridView
+    Friend WithEvents btDelCon As Button
+    Friend WithEvents btAddCon As Button
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
+    Friend WithEvents Label20 As Label
+    Friend WithEvents dgInsumos As DataGridView
+    Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn2 As DataGridViewTextBoxColumn
+    Friend WithEvents DataGridViewTextBoxColumn3 As DataGridViewTextBoxColumn
+    Friend WithEvents cbtipo As ComboBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents Label22 As Label
+    Friend WithEvents dgconidsuc As DataGridViewTextBoxColumn
+    Friend WithEvents contipo As DataGridViewTextBoxColumn
+    Friend WithEvents conid As DataGridViewTextBoxColumn
+    Friend WithEvents dgconsucursal As DataGridViewTextBoxColumn
+    Friend WithEvents dgconcodigo As DataGridViewTextBoxColumn
+    Friend WithEvents dgconnombre As DataGridViewTextBoxColumn
 End Class

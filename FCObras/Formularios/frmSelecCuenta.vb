@@ -97,7 +97,7 @@ Public Class frmSelecCuenta
                     cuenta.Idcuentapadre = dCr("id_cuentapadre")
                     cuenta.Codigo = dCr("codigo_cuenta")
                     cuenta.Nombrecuenta = dDicCuentas.Item(dCr("codigo_cuenta"))
-                    cuenta.Get_SumDetalles()
+                    'cuenta.Get_SumDetalles()
                     _colCuentas.Add(cuenta)
                 Loop
             End Using

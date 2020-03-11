@@ -6,8 +6,9 @@ Module GeneralFC
     ''VARIABLES PARA REGISTRO EN REGEEDIT
     Public Const FC_REGKEY As String = "HKEY_LOCAL_MACHINE\SOFTWARE\FCModulos\"
     Public Const FC_REGKEYWRITE As String = "HKLM\SOFTWARE\FCModulos"
-    Public Const Formato_FechaYear As String = "yyyy-MM-dd"
+    'Public Const Formato_FechaYear As String = "yyyy-MM-dd"
     Public Const Formato_FechaMonth As String = "dd/MM/yyyy"
+    Public Const Format_Moneda As String = "#,##0.00"
     ''VARIABLES DE CONEXION
     Public DConexiones As Dictionary(Of String, SqlConnection)
     Public FC_Con As New SqlConnection
@@ -16,7 +17,7 @@ Module GeneralFC
     ''VARIABLES PARA CONSULTAS
     Public Rs As SqlDataReader
     Public ComRs As SqlCommand
-    Public fError As Long
+    Public fCError As Long
 
     Private _FC_DATABASE As String
 
@@ -143,6 +144,28 @@ ERR_CON:
         End Set
     End Property
 
+    Public Property FC_RutaSDKComercial() As String
+        Get
+            On Error Resume Next
+            FC_RutaSDKComercial = My.Computer.Registry.GetValue(FC_REGKEY, "RutaSDKComercial", Nothing)
+        End Get
+        Set(ByVal val As String)
+            On Error Resume Next
+            WriteToRegistry("RutaSDKComercial", val)
+        End Set
+    End Property
+
+    Public Property FC_EmpresasComercial() As String
+        Get
+            On Error Resume Next
+            FC_EmpresasComercial = My.Computer.Registry.GetValue(FC_REGKEY, "RutaEmpresasComercial", Nothing)
+        End Get
+        Set(ByVal val As String)
+            On Error Resume Next
+            WriteToRegistry("RutaEmpresasComercial", val)
+        End Set
+    End Property
+
     Public Property FC_RutaSincronizada() As String
         Get
             On Error Resume Next
@@ -199,8 +222,8 @@ ERR_GETCONS:
             '    If fError <> 0 Then Exit Sub
             'End If
         End If
-        fError = FC_Conexion("master")
-        If fError <> 0 Then Exit Sub
+        fCError = FC_Conexion("master")
+        If fCError <> 0 Then Exit Sub
         Try
             opCmd = New SqlCommand("IF db_id('" & FC_DATABASE & "') IS NULL CREATE DATABASE " & FC_DATABASE & ";", FC_Con)
             opCmd.ExecuteNonQuery()
@@ -216,8 +239,8 @@ ERR_GETCONS:
         Dim cQue As String
         Dim i As Integer, n As Integer
 
-        fError = FC_Conexion()
-        If fError <> 0 Then
+        fCError = FC_Conexion()
+        If fCError <> 0 Then
 
         End If
 

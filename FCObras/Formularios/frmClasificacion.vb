@@ -171,4 +171,5 @@ Public Class frmClasificacion
             cbtipo.Enabled = False
         End If
     End Sub
+
 End Class

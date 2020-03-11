@@ -14,6 +14,9 @@ Public Class clCuenta
     Private _tipo As Integer
     Private _idinsumo As String
 
+    Private _idusuario As Integer
+    Private _estatus As Integer
+
 
     ''variables para asociacion
     Private _idcuentapadre As Integer
@@ -225,13 +228,31 @@ Public Class clCuenta
         End Set
     End Property
 
+    Public Property Idusuario As Integer
+        Get
+            Return _idusuario
+        End Get
+        Set(value As Integer)
+            _idusuario = value
+        End Set
+    End Property
+
+    Public Property Estatus As Integer
+        Get
+            Return _estatus
+        End Get
+        Set(value As Integer)
+            _estatus = value
+        End Set
+    End Property
+
     Public Sub Guarda_cuenta()
         Dim gQue As String
 
         Try
             gQue = "INSERT INTO zConsCuentas(fechaInicio,fechaFinal,id_obra,codigo,nombre_cuenta,codigo_adw,
-                            clasificacion1,clasificacion2,clasificacion3,tipoinsumo,idinsumo)VALUES(
-                            @fechaini,@fechafin,@idobra,@codigo,@nombre,@codigoadw,@clasi1,@clasi2,@clasi3,@tipo,@idinsumo)
+                            unidad,clasificacion1,clasificacion2,clasificacion3,tipoinsumo,idinsumo)VALUES(
+                            @fechaini,@fechafin,@idobra,@codigo,@nombre,@codigoadw,@unidad,@clasi1,@clasi2,@clasi3,@tipo,@idinsumo)
                             SELECT SCOPE_IDENTITY()"
             Using gCom = New SqlCommand(gQue, DConexiones("CON"))
                 gCom.Parameters.AddWithValue("idobra", _idobra)
@@ -240,6 +261,7 @@ Public Class clCuenta
                 gCom.Parameters.AddWithValue("codigo", _codigo)
                 gCom.Parameters.AddWithValue("nombre", _nombrecuenta)
                 gCom.Parameters.AddWithValue("codigoadw", _codigoadw)
+                gCom.Parameters.AddWithValue("unidad", _unidad)
                 gCom.Parameters.AddWithValue("clasi1", _clasificacion1)
                 gCom.Parameters.AddWithValue("clasi2", _clasificacion2)
                 gCom.Parameters.AddWithValue("clasi3", _clasificacion3)
@@ -263,18 +285,21 @@ Public Class clCuenta
                     sCr.Read()
                     If sCr.HasRows Then
                         _cantidad = _cantidad - sCr("cantidad")
-                        _precio = _precio - sCr("precio")
-                        _importe = (_cantidad + sCr("cantidad")) * (_precio + sCr("precio"))
+                        _cantidadpendiente = _cantidad
+                        _precio = _precio
+                        _importe = _cantidad * _precio
+                        _importependiente = _importe
                     End If
                 End Using
             End Using
-            If _precio <> 0 And _cantidad <> 0 Then
-                gQue = "INSERT INTO zConsAsociacionesPrecios(id_obra,id_cuenta,id_cuentapadre,
+            If _precio <> 0 Or _tipo = 0 Then
+                gQue = "INSERT INTO zConsAsociacionesPrecios(id_usuario,id_obra,id_cuenta,id_cuentapadre,
                             codigo_cuenta,codigo_cuentapadre,fecha,id_presupuesto,cantidad,
-                            unidad,precio,importe,cantidad_pendiente,importe_pendiente)VALUES(
-                            @idobra,@idcuenta,@idcuentapadre,@codigocuenta,@codigocuentapadre,
-                            @fecha,@idpre,@cant,@uni,@precio,@importe,@cantpen,@importepen)"
+                            unidad,precio,importe,cantidad_pendiente,importe_pendiente,estatus)VALUES(
+                            @idusuario,@idobra,@idcuenta,@idcuentapadre,@codigocuenta,@codigocuentapadre,
+                            @fecha,@idpre,@cant,@uni,@precio,@importe,@cantpen,@importepen,@status)"
                 Using gCom = New SqlCommand(gQue, DConexiones("CON"))
+                    gCom.Parameters.AddWithValue("idusuario", _idusuario)
                     gCom.Parameters.AddWithValue("idobra", _idobra)
                     gCom.Parameters.AddWithValue("idcuenta", _id)
                     gCom.Parameters.AddWithValue("idcuentapadre", _idcuentapadre)
@@ -288,6 +313,7 @@ Public Class clCuenta
                     gCom.Parameters.AddWithValue("importe", _importe)
                     gCom.Parameters.AddWithValue("cantpen", _cantidadpendiente)
                     gCom.Parameters.AddWithValue("importepen", _importependiente)
+                    gCom.Parameters.AddWithValue("status", _estatus)
                     gCom.ExecuteNonQuery()
                 End Using
             End If
@@ -344,7 +370,7 @@ Public Class clCuenta
         resp = False
         dQue = "SELECT DISTINCT fechaInicio,fechaFinal,codigo,nombre_cuenta,
                     clasificacion1,clasificacion2,clasificacion3,tipoinsumo,
-                    idinsumo,id_cuentapadre,codigo_cuentapadre,unidad FROM zConsCuentas c
+                    idinsumo,id_cuentapadre,codigo_cuentapadre,a.unidad FROM zConsCuentas c
                     INNER JOIN zConsAsociacionesPrecios a ON c.id=a.id_cuenta 
                     WHERE a.id_cuenta=" & _id & " and id_cuentapadre=" & _idcuentapadre & ""
         Using dCom = New SqlCommand(dQue, DConexiones("CON"))
@@ -385,18 +411,79 @@ Public Class clCuenta
     Public Sub Get_SumDetalles()
         Dim dQue As String
 
-        dQue = "SELECT  SUM(cantidad) AS cantidad,SUM(precio) AS precio
+        dQue = "SELECT  SUM(cantidad) AS cantidad,SUM(importe) AS importe,
+                            SUM(cantidad_pendiente) as cantidadpendiente,
+                            SUM(importe_pendiente) as importependiente,unidad
                             FROM zConsAsociacionesPrecios 
-                            WHERE id_cuenta = " & _id & " AND id_cuentapadre=" & _idcuentapadre & ""
+                            WHERE id_cuenta = " & _id & " AND id_cuentapadre=" & _idcuentapadre & " group by unidad"
         Using dCom = New SqlCommand(dQue, DConexiones("CON"))
             Using dCr = dCom.ExecuteReader()
                 dCr.Read()
                 If dCr.HasRows Then
                     _cantidad = dCr("cantidad")
-                    _precio = dCr("precio")
-                    _importe = _cantidad * _precio
+                    _importe = dCr("importe")
+                    _cantidadpendiente = dCr("cantidadpendiente")
+                    _importependiente = dCr("importependiente")
+                    _unidad = dCr("unidad")
                 End If
             End Using
         End Using
     End Sub
+
+    Public Function Get_idCuenta(ByVal cCodigo As String) As Integer
+        Dim dQue As String, resp As Integer
+
+        dQue = "SELECT id FROM zConsCuentas WHERE codigo='" & cCodigo & "'"
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            Using dCr = dCom.ExecuteReader()
+                dCr.Read()
+                If dCr.HasRows Then
+                    resp = dCr("id")
+                End If
+            End Using
+        End Using
+        Return resp
+    End Function
+
+    Public Sub EliminaSin_Precio()
+        Dim dQue As String
+        dQue = "DELETE FROM zConsCuentas WHERE id=" & _id & ""
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+        End Using
+
+        dQue = "DELETE FROM zConsAsociacionesPrecios WHERE  id_cuenta=" & _id & ""
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+        End Using
+    End Sub
+
+    Public Sub Actualiza_Cuenta()
+        Dim dQue As String
+
+        dQue = "UPDATE zConsCuentas SET fechaInicio=@fechai, fechafinal=@fechaf, 
+                        nombre_cuenta=@nombre,unidad=@unidad, clasificacion1=@clas1, clasificacion2=@clas2,
+                        clasificacion3=@clas3, tipoinsumo=@tipo, idinsumo=@idinsumo
+                        WHERE id=@id"
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.Parameters.AddWithValue("id", _id)
+            dCom.Parameters.AddWithValue("fechai", _fechaini)
+            dCom.Parameters.AddWithValue("fechaf", _fechafin)
+            dCom.Parameters.AddWithValue("nombre", _nombrecuenta)
+            dCom.Parameters.AddWithValue("unidad", _unidad)
+            dCom.Parameters.AddWithValue("clas1", _clasificacion1)
+            dCom.Parameters.AddWithValue("clas2", _clasificacion2)
+            dCom.Parameters.AddWithValue("clas3", _clasificacion3)
+            dCom.Parameters.AddWithValue("tipo", _tipo)
+            dCom.Parameters.AddWithValue("idinsumo", _idinsumo)
+            dCom.ExecuteNonQuery()
+        End Using
+
+        dQue = "UPDATE zConsAsociacionesPrecios SET unidad=" & _unidad & " WHERE id_cuenta=" & _id & ""
+        Using dCom = New SqlCommand(dQue, DConexiones("CON"))
+            dCom.ExecuteNonQuery()
+        End Using
+    End Sub
+
+
 End Class

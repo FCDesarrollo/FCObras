@@ -24,7 +24,7 @@ inicionew:
             TBPass.Text = FCConstruccion.PassAdmin
         Else
             sSystema = 1
-            fError = FC_Conexion()
+            fCError = FC_Conexion()
             If Verifica_TablasGen_Actualiza() = False Then
                 CrearTablasPremium()
             End If
@@ -58,7 +58,7 @@ inicionew:
                 VerificaUsuario = True
             End If
         ElseIf FCConstruccion.sSystema = 1 Then
-            fError = FC_Conexion()
+            fCError = FC_Conexion()
             GL_cUsuario = New clUsuario
             VerificaUsuario = GL_cUsuario.login(Me.TBUser.Text, Eramake.eCryptography.Encrypt(Me.TBPass.Text))
         End If

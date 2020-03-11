@@ -8,6 +8,9 @@ Public Class clObra
     Private _fechaini As Date
     Private _fechafin As Date
     Private _descripcion As String
+    Private _idalmacen As Integer
+    Private _idconcepto As Integer
+
 
     Private _colPresupuestos As New Collection
     Private _colPlanCrono As New Collection
@@ -96,13 +99,31 @@ Public Class clObra
         End Set
     End Property
 
+    Public Property Idalmacen As Integer
+        Get
+            Return _idalmacen
+        End Get
+        Set(value As Integer)
+            _idalmacen = value
+        End Set
+    End Property
+
+    Public Property Idconcepto As Integer
+        Get
+            Return _idconcepto
+        End Get
+        Set(value As Integer)
+            _idconcepto = value
+        End Set
+    End Property
+
     Public Sub Guarda_Obra()
         Dim cQue As String
 
         Try
             cQue = "INSERT INTO zConsObras(idsucursal,nombre_obra,fecha_inicial,
-                        fecha_final,descripcion,estatus)VALUES(@idsuc,@nombre,
-                            @fechai,@fechaf,@des,@sta) SELECT SCOPE_IDENTITY()"
+                        fecha_final,descripcion,estatus,idalmacen,idconcepto)VALUES(@idsuc,@nombre,
+                            @fechai,@fechaf,@des,@sta,@idalmacen,@idconcepto) SELECT SCOPE_IDENTITY()"
             Using cCom = New SqlCommand(cQue, DConexiones("CON"))
                 cCom.Parameters.AddWithValue("idsuc", _idsucursal)
                 cCom.Parameters.AddWithValue("nombre", _nombreobra)
@@ -110,7 +131,32 @@ Public Class clObra
                 cCom.Parameters.AddWithValue("fechaf", _fechafin)
                 cCom.Parameters.AddWithValue("des", _descripcion)
                 cCom.Parameters.AddWithValue("sta", _estatus)
+                cCom.Parameters.AddWithValue("idalmacen", _idalmacen)
+                cCom.Parameters.AddWithValue("idconcepto", _idconcepto)
                 _id = Convert.ToInt32(cCom.ExecuteScalar())
+            End Using
+        Catch ex As Exception
+            MsgBox("Error al guardar la Obra." & vbCrLf & ex.Message, vbExclamation, "Validación")
+        End Try
+    End Sub
+
+    Public Sub Edita_Obra()
+        Dim cQue As String
+
+        Try
+            cQue = "UPDATE zConsObras SET idalmacen=@idalmacen,idconcepto=@idconcepto,
+                        nombre_obra=@nombre, fecha_inicial=@fechai, fecha_final=@fechaf,
+                        descripcion=@des, estatus=@sta WHERE id=@id"
+            Using cCom = New SqlCommand(cQue, DConexiones("CON"))
+                cCom.Parameters.AddWithValue("idalmacen", _idalmacen)
+                cCom.Parameters.AddWithValue("idconcepto", _idconcepto)
+                cCom.Parameters.AddWithValue("nombre", _nombreobra)
+                cCom.Parameters.AddWithValue("fechai", _fechaini)
+                cCom.Parameters.AddWithValue("fechaf", _fechafin)
+                cCom.Parameters.AddWithValue("des", _descripcion)
+                cCom.Parameters.AddWithValue("sta", _estatus)
+                cCom.Parameters.AddWithValue("id", _id)
+                cCom.ExecuteNonQuery()
             End Using
         Catch ex As Exception
             MsgBox("Error al guardar la Obra." & vbCrLf & ex.Message, vbExclamation, "Validación")
@@ -123,7 +169,7 @@ Public Class clObra
 
         Try
             cQue = "SELECT id,nombre_obra,fecha_inicial,fecha_final,descripcion,
-                        estatus FROM zConsObras WHERE idsucursal=" & _idsucursal & ""
+                        estatus, idalmacen, idconcepto FROM zConsObras WHERE idsucursal=" & _idsucursal & " ORDER BY id desc"
             Using cCOm = New SqlCommand(cQue, DConexiones("CON"))
                 Using cCr = cCOm.ExecuteReader
                     Do While cCr.Read
@@ -135,6 +181,8 @@ Public Class clObra
                         obra.Fechafin = Format(cCr("fecha_final"), Formato_FechaYear)
                         obra.Descripcion = cCr("descripcion")
                         obra.Estatus = cCr("estatus")
+                        obra.Idconcepto = cCr("idconcepto")
+                        obra.Idalmacen = cCr("idalmacen")
 
                         colObr.Add(obra)
                     Loop
